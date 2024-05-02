@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2598a43ec77e420aa3a1f3f4024de33f" Name="Diagram1">
+        <EntityTypeShape EntityType="Admin_shopModel.Categoria" Width="1.5" PointX="0.75" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Admin_shopModel.Cliente" Width="1.5" PointX="3" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Admin_shopModel.Producto" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Admin_shopModel.Usuario" Width="1.5" PointX="0.75" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Admin_shopModel.Venta" Width="1.5" PointX="5.25" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Admin_shopModel.Venta_detalle" Width="1.5" PointX="7.5" PointY="3.5" IsExpanded="true" />
+        <AssociationConnector Association="Admin_shopModel.FK_product_category" ManuallyRouted="false" />
+        <AssociationConnector Association="Admin_shopModel.FK__Venta__id_client__01142BA1" ManuallyRouted="false" />
+        <AssociationConnector Association="Admin_shopModel.FK_client_user" ManuallyRouted="false" />
+        <AssociationConnector Association="Admin_shopModel.FK_detailVenta_product" ManuallyRouted="false" />
+        <AssociationConnector Association="Admin_shopModel.FK_product_user" ManuallyRouted="false" />
+        <AssociationConnector Association="Admin_shopModel.FK_venta_user" ManuallyRouted="false" />
+        <AssociationConnector Association="Admin_shopModel.FK_detailVenta_venta" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

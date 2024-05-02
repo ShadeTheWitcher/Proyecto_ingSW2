@@ -1,0 +1,21 @@
+1-abrir el archivo .sql en SQL SERVER y cargar la base junto con el usuario y categorias
+2-abrir el Visual Studio, comprobar que este instalado el paquete aplicaciones de escritorio .net
+3-Abrir el proyecto/solucion
+4-En el apartado Explorador de soluciones buscar en la raiz "App.config" y buscar la ultima linea donde hay 2 comentarios.
+5-En el SQL server hacer 2do click en el icon donde dice el nombre del servidor de la pc. Hacer click en "Propiedades"
+6-Copiar el nombre que sale en esa pestaña del esquipo por ejemplo "DESKTOP-EOERECB\SQLEXPRESS_I2"
+7-Volver a App.config y buscar en esa linea de codigo que dice "<add name" donde diga "data source=DESKTOP-1DI5QQ7\SQLEXPRESS01;" y reemplazar ese nombre
+por el que copiamos anteriormente del SQL server.
+8-Asociar la base creada del SQL Server con el Visual, en el apartado de "explorador de servidores" y "conectar con la base de datos". No se necesita crear nigun archivo
+
+En caso de que no funcione lo anterior borrar la linea de codigo antes mencionada de App.config y borrar el archivo db.edmx localizado en la carpeta Clases/models 
+y crear uno nuevo dando 2do click crear nuevo elemento, elegir plantilla en la seccion Datos y elegir "ADO.NET Entity Data Model" poner el nombre de archivo como "db" 
+luego dejar todo como esta dando siguiente en las 1ras opciones, los nombres dejar como "Admin_shopEntities"  hasta llegar al punto de elegir los objetos de la base
+elegir la opcion tablas, dejar el nombre Admin_shopModel y dar a finalizar hasta que cree el archivo. 
+Si da errores como que le falta archivos o cosas asi haciendo eso:
+Ir otra vez a App.config y copiar la linea antes mencionada del conectionString.   
+Una vez copiado este nuevo conectionString. Descartar los cambios hechos anteriormente/volver a la version sin alteraciones
+y cambiar el conectionString por el nuevo generado.
+
+Cualquier cosa consultar a los integrantes.
+
