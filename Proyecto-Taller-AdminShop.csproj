@@ -118,16 +118,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AgregarProductoForm.cs">
+    <Compile Include="Forms\SubAdmin\Producto\AgregarProductoForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AgregarProductoForm.Designer.cs">
+    <Compile Include="Forms\SubAdmin\Producto\AgregarProductoForm.Designer.cs">
       <DependentUpon>AgregarProductoForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="CambiarContraseña.cs">
+    <Compile Include="Forms\DueñoAdmin\Usuario\CambiarContraseña.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CambiarContraseña.Designer.cs">
+    <Compile Include="Forms\DueñoAdmin\Usuario\CambiarContraseña.Designer.cs">
       <DependentUpon>CambiarContraseña.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\appState.cs" />
@@ -177,175 +177,175 @@
     <Compile Include="Classes\ProductoController.cs" />
     <Compile Include="Classes\SaleController.cs" />
     <Compile Include="Classes\userController.cs" />
-    <Compile Include="ClientesView.cs">
+    <Compile Include="Forms\Vendedor\Cliente\ClientesView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ClientesView.Designer.cs">
+    <Compile Include="Forms\Vendedor\Cliente\ClientesView.Designer.cs">
       <DependentUpon>ClientesView.cs</DependentUpon>
     </Compile>
-    <Compile Include="ComboBoxItem.cs" />
-    <Compile Include="ConfiguraciónView.cs">
+    <Compile Include="Classes\ComboBoxItem.cs" />
+    <Compile Include="Forms\DueñoAdmin\ConfiguraciónView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ConfiguraciónView.Designer.cs">
+    <Compile Include="Forms\DueñoAdmin\ConfiguraciónView.Designer.cs">
       <DependentUpon>ConfiguraciónView.cs</DependentUpon>
     </Compile>
-    <Compile Include="ConfirmarCerrarSesionForm.cs">
+    <Compile Include="Forms\GUI_Interface\ConfirmarCerrarSesionForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ConfirmarCerrarSesionForm.Designer.cs">
+    <Compile Include="Forms\GUI_Interface\ConfirmarCerrarSesionForm.Designer.cs">
       <DependentUpon>ConfirmarCerrarSesionForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ConfirmarSalirForm.cs">
+    <Compile Include="Forms\GUI_Interface\ConfirmarSalirForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ConfirmarSalirForm.Designer.cs">
+    <Compile Include="Forms\GUI_Interface\ConfirmarSalirForm.Designer.cs">
       <DependentUpon>ConfirmarSalirForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="DataTracker.cs">
+    <Compile Include="Forms\DueñoAdmin\DataTracker.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="DataTracker.Designer.cs">
+    <Compile Include="Forms\DueñoAdmin\DataTracker.Designer.cs">
       <DependentUpon>DataTracker.cs</DependentUpon>
     </Compile>
-    <Compile Include="EditarClienteForm.cs">
+    <Compile Include="Forms\Vendedor\Cliente\EditarClienteForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EditarClienteForm.Designer.cs">
+    <Compile Include="Forms\Vendedor\Cliente\EditarClienteForm.Designer.cs">
       <DependentUpon>EditarClienteForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="EditarProductoForm.cs">
+    <Compile Include="Forms\SubAdmin\Producto\EditarProductoForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EditarProductoForm.Designer.cs">
+    <Compile Include="Forms\SubAdmin\Producto\EditarProductoForm.Designer.cs">
       <DependentUpon>EditarProductoForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="EditarUsuario.cs">
+    <Compile Include="Forms\DueñoAdmin\Usuario\EditarUsuario.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EditarUsuario.Designer.cs">
+    <Compile Include="Forms\DueñoAdmin\Usuario\EditarUsuario.Designer.cs">
       <DependentUpon>EditarUsuario.cs</DependentUpon>
     </Compile>
-    <Compile Include="FIngresar.cs">
+    <Compile Include="Forms\GUI_Interface\Login\FIngresar.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FIngresar.Designer.cs">
+    <Compile Include="Forms\GUI_Interface\Login\FIngresar.Designer.cs">
       <DependentUpon>FIngresar.cs</DependentUpon>
     </Compile>
-    <Compile Include="PanelPrincipal.cs">
+    <Compile Include="Forms\DueñoAdmin\PanelPrincipal.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PanelPrincipal.Designer.cs">
+    <Compile Include="Forms\DueñoAdmin\PanelPrincipal.Designer.cs">
       <DependentUpon>PanelPrincipal.cs</DependentUpon>
     </Compile>
-    <Compile Include="ProductosView.cs">
+    <Compile Include="Forms\SubAdmin\Producto\ProductosView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ProductosView.Designer.cs">
+    <Compile Include="Forms\SubAdmin\Producto\ProductosView.Designer.cs">
       <DependentUpon>ProductosView.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PanelAdmin.cs">
+    <Compile Include="Forms\SubAdmin\PanelAdmin.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PanelAdmin.Designer.cs">
+    <Compile Include="Forms\SubAdmin\PanelAdmin.Designer.cs">
       <DependentUpon>PanelAdmin.cs</DependentUpon>
     </Compile>
-    <Compile Include="RegistrarUsuarioForm.cs">
+    <Compile Include="Forms\DueñoAdmin\Usuario\RegistrarUsuarioForm.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="RegistrarUsuarioForm.Designer.cs">
+    <Compile Include="Forms\DueñoAdmin\Usuario\RegistrarUsuarioForm.Designer.cs">
       <DependentUpon>RegistrarUsuarioForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ReportesProductsUnstock.cs">
+    <Compile Include="Forms\SubAdmin\Producto\ReportesProductsUnstock.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ReportesProductsUnstock.Designer.cs">
+    <Compile Include="Forms\SubAdmin\Producto\ReportesProductsUnstock.Designer.cs">
       <DependentUpon>ReportesProductsUnstock.cs</DependentUpon>
     </Compile>
-    <Compile Include="UsuariosView.cs">
+    <Compile Include="Forms\DueñoAdmin\Usuario\UsuariosView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UsuariosView.Designer.cs">
+    <Compile Include="Forms\DueñoAdmin\Usuario\UsuariosView.Designer.cs">
       <DependentUpon>UsuariosView.cs</DependentUpon>
     </Compile>
     <Compile Include="Validations\ValidationClientes.cs" />
     <Compile Include="Validations\ValidationProducts.cs" />
     <Compile Include="Validations\ValidationUser.cs" />
-    <Compile Include="Vendedor\BuscadorClientes.cs">
+    <Compile Include="Forms\Vendedor\Cliente\BuscadorClientes.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Vendedor\BuscadorClientes.Designer.cs">
+    <Compile Include="Forms\Vendedor\Cliente\BuscadorClientes.Designer.cs">
       <DependentUpon>BuscadorClientes.cs</DependentUpon>
     </Compile>
-    <Compile Include="Vendedor\ConsultarVenta.cs">
+    <Compile Include="Forms\Vendedor\Venta\ConsultarVenta.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Vendedor\ConsultarVenta.Designer.cs">
+    <Compile Include="Forms\Vendedor\Venta\ConsultarVenta.Designer.cs">
       <DependentUpon>ConsultarVenta.cs</DependentUpon>
     </Compile>
-    <Compile Include="Vendedor\PanelVendedor.cs">
+    <Compile Include="Forms\Vendedor\PanelVendedor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Vendedor\PanelVendedor.Designer.cs">
+    <Compile Include="Forms\Vendedor\PanelVendedor.Designer.cs">
       <DependentUpon>PanelVendedor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Vendedor\RegistrarCliente.cs">
+    <Compile Include="Forms\Vendedor\Cliente\RegistrarCliente.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Vendedor\RegistrarCliente.Designer.cs">
+    <Compile Include="Forms\Vendedor\Cliente\RegistrarCliente.Designer.cs">
       <DependentUpon>RegistrarCliente.cs</DependentUpon>
     </Compile>
-    <Compile Include="Vendedor\RegistrarVenta.cs">
+    <Compile Include="Forms\Vendedor\Venta\RegistrarVenta.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Vendedor\RegistrarVenta.Designer.cs">
+    <Compile Include="Forms\Vendedor\Venta\RegistrarVenta.Designer.cs">
       <DependentUpon>RegistrarVenta.cs</DependentUpon>
     </Compile>
-    <Compile Include="VentasView.cs">
+    <Compile Include="Forms\Vendedor\Venta\VentasView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="VentasView.Designer.cs">
+    <Compile Include="Forms\Vendedor\Venta\VentasView.Designer.cs">
       <DependentUpon>VentasView.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="AgregarProductoForm.resx">
+    <EmbeddedResource Include="Forms\SubAdmin\Producto\AgregarProductoForm.resx">
       <DependentUpon>AgregarProductoForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CambiarContraseña.resx">
+    <EmbeddedResource Include="Forms\DueñoAdmin\Usuario\CambiarContraseña.resx">
       <DependentUpon>CambiarContraseña.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ClientesView.resx">
+    <EmbeddedResource Include="Forms\Vendedor\Cliente\ClientesView.resx">
       <DependentUpon>ClientesView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ConfiguraciónView.resx">
+    <EmbeddedResource Include="Forms\DueñoAdmin\ConfiguraciónView.resx">
       <DependentUpon>ConfiguraciónView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ConfirmarCerrarSesionForm.resx">
+    <EmbeddedResource Include="Forms\GUI_Interface\ConfirmarCerrarSesionForm.resx">
       <DependentUpon>ConfirmarCerrarSesionForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ConfirmarSalirForm.resx">
+    <EmbeddedResource Include="Forms\GUI_Interface\ConfirmarSalirForm.resx">
       <DependentUpon>ConfirmarSalirForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DataTracker.resx">
+    <EmbeddedResource Include="Forms\DueñoAdmin\DataTracker.resx">
       <DependentUpon>DataTracker.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EditarClienteForm.resx">
+    <EmbeddedResource Include="Forms\Vendedor\Cliente\EditarClienteForm.resx">
       <DependentUpon>EditarClienteForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EditarProductoForm.resx">
+    <EmbeddedResource Include="Forms\SubAdmin\Producto\EditarProductoForm.resx">
       <DependentUpon>EditarProductoForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EditarUsuario.resx">
+    <EmbeddedResource Include="Forms\DueñoAdmin\Usuario\EditarUsuario.resx">
       <DependentUpon>EditarUsuario.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FIngresar.resx">
+    <EmbeddedResource Include="Forms\GUI_Interface\Login\FIngresar.resx">
       <DependentUpon>FIngresar.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PanelPrincipal.resx">
+    <EmbeddedResource Include="Forms\DueñoAdmin\PanelPrincipal.resx">
       <DependentUpon>PanelPrincipal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ProductosView.resx">
+    <EmbeddedResource Include="Forms\SubAdmin\Producto\ProductosView.resx">
       <DependentUpon>ProductosView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -358,34 +358,34 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="PanelAdmin.resx">
+    <EmbeddedResource Include="Forms\SubAdmin\PanelAdmin.resx">
       <DependentUpon>PanelAdmin.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RegistrarUsuarioForm.resx">
+    <EmbeddedResource Include="Forms\DueñoAdmin\Usuario\RegistrarUsuarioForm.resx">
       <DependentUpon>RegistrarUsuarioForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ReportesProductsUnstock.resx">
+    <EmbeddedResource Include="Forms\SubAdmin\Producto\ReportesProductsUnstock.resx">
       <DependentUpon>ReportesProductsUnstock.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UsuariosView.resx">
+    <EmbeddedResource Include="Forms\DueñoAdmin\Usuario\UsuariosView.resx">
       <DependentUpon>UsuariosView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Vendedor\BuscadorClientes.resx">
+    <EmbeddedResource Include="Forms\Vendedor\Cliente\BuscadorClientes.resx">
       <DependentUpon>BuscadorClientes.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Vendedor\ConsultarVenta.resx">
+    <EmbeddedResource Include="Forms\Vendedor\Venta\ConsultarVenta.resx">
       <DependentUpon>ConsultarVenta.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Vendedor\PanelVendedor.resx">
+    <EmbeddedResource Include="Forms\Vendedor\PanelVendedor.resx">
       <DependentUpon>PanelVendedor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Vendedor\RegistrarCliente.resx">
+    <EmbeddedResource Include="Forms\Vendedor\Cliente\RegistrarCliente.resx">
       <DependentUpon>RegistrarCliente.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Vendedor\RegistrarVenta.resx">
+    <EmbeddedResource Include="Forms\Vendedor\Venta\RegistrarVenta.resx">
       <DependentUpon>RegistrarVenta.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="VentasView.resx">
+    <EmbeddedResource Include="Forms\Vendedor\Venta\VentasView.resx">
       <DependentUpon>VentasView.cs</DependentUpon>
     </EmbeddedResource>
     <EntityDeploy Include="Classes\Models\db.edmx">
@@ -438,6 +438,7 @@
       <LastGenOutput>db.cs</LastGenOutput>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
