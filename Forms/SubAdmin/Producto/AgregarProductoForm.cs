@@ -149,7 +149,9 @@ namespace Proyecto_Taller_AdminShop
                     float precioVenta = Convert.ToSingle(priceSale);
 
 
-                    ProductoController.addProduct(TextDescription.Text, categoriaId, precioCosto, precioVenta, stock);
+                    //ProductoController.addProduct(TextDescription.Text, categoriaId, precioCosto, precioVenta, stock);
+
+                    ProductoController.InsertarProducto(TextDescription.Text, precioCosto, precioVenta, stock, categoriaId, 1);
 
                     MessageBox.Show("Producto añadido satisfactoriamente.", "Producto Añadido", MessageBoxButtons.OK, MessageBoxIcon.Information);
 

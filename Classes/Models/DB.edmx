@@ -9,10 +9,10 @@
           <Key>
             <PropertyRef Name="id_categoria" />
           </Key>
-          <Property Name="id_categoria" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_categoria" Type="int" Nullable="false" />
           <Property Name="descripcion" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="create_date" Type="datetime" Nullable="false" />
-          <Property Name="modify_date" Type="datetime" />
+          <Property Name="create_date" Type="date" Nullable="false" />
+          <Property Name="modify_date" Type="date" />
           <Property Name="estado" Type="varchar" MaxLength="1" />
         </EntityType>
         <EntityType Name="Cliente">
@@ -26,8 +26,8 @@
           <Property Name="telefono" Type="bigint" Nullable="false" />
           <Property Name="dni" Type="bigint" Nullable="false" />
           <Property Name="instagram" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="create_date" Type="datetime" Nullable="false" />
-          <Property Name="modify_date" Type="datetime" />
+          <Property Name="create_date" Type="date" Nullable="false" />
+          <Property Name="modify_date" Type="date" />
           <Property Name="domicilio" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="id_usuario" Type="int" Nullable="false" />
           <Property Name="estado" Type="varchar" MaxLength="1" />
@@ -41,8 +41,8 @@
           <Property Name="precio_costo" Type="float" Nullable="false" />
           <Property Name="precio_venta" Type="float" Nullable="false" />
           <Property Name="stock" Type="int" Nullable="false" />
-          <Property Name="create_date" Type="datetime" />
-          <Property Name="modify_date" Type="datetime" />
+          <Property Name="create_date" Type="date" />
+          <Property Name="modify_date" Type="date" />
           <Property Name="id_categoria" Type="int" Nullable="false" />
           <Property Name="create_by" Type="int" Nullable="false" />
           <Property Name="estado" Type="varchar" MaxLength="1" />
@@ -60,8 +60,8 @@
           <Property Name="apellido" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="telefono" Type="bigint" Nullable="false" />
           <Property Name="instagram" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="create_date" Type="datetime" Nullable="false" />
-          <Property Name="modify_date" Type="datetime" />
+          <Property Name="create_date" Type="date" Nullable="false" />
+          <Property Name="modify_date" Type="date" />
           <Property Name="estado" Type="varchar" MaxLength="1" />
         </EntityType>
         <EntityType Name="Venta">
@@ -70,12 +70,12 @@
           </Key>
           <Property Name="id_venta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="total" Type="float" Nullable="false" />
-          <Property Name="fecha" Type="datetime" Nullable="false" />
-          <Property Name="create_date" Type="datetime" Nullable="false" />
-          <Property Name="modify_date" Type="datetime" />
-          <Property Name="id_usuario" Type="int" Nullable="false" />
-          <Property Name="estado" Type="varchar" MaxLength="1" />
+          <Property Name="fecha" Type="date" Nullable="false" />
           <Property Name="id_cliente" Type="int" />
+          <Property Name="id_usuario" Type="int" Nullable="false" />
+          <Property Name="create_date" Type="date" Nullable="false" />
+          <Property Name="modify_date" Type="date" />
+          <Property Name="estado" Type="varchar" MaxLength="1" />
         </EntityType>
         <EntityType Name="Venta_detalle">
           <Key>
@@ -84,25 +84,13 @@
           <Property Name="id_venta_detalle" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="cantidad" Type="int" Nullable="false" />
           <Property Name="subtotal" Type="float" Nullable="false" />
-          <Property Name="create_date" Type="datetime" />
-          <Property Name="modify_date" Type="datetime" />
+          <Property Name="create_date" Type="date" />
+          <Property Name="modify_date" Type="date" />
           <Property Name="id_venta" Type="int" Nullable="false" />
           <Property Name="id_producto" Type="int" Nullable="false" />
           <Property Name="estado" Type="varchar" MaxLength="1" />
         </EntityType>
-        <Association Name="FK__Venta__id_client__01142BA1">
-          <End Role="Cliente" Type="Self.Cliente" Multiplicity="0..1" />
-          <End Role="Venta" Type="Self.Venta" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Cliente">
-              <PropertyRef Name="id_cliente" />
-            </Principal>
-            <Dependent Role="Venta">
-              <PropertyRef Name="id_cliente" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_client_user">
+        <Association Name="client_user">
           <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
           <End Role="Cliente" Type="Self.Cliente" Multiplicity="*" />
           <ReferentialConstraint>
@@ -114,7 +102,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_detailVenta_product">
+        <Association Name="detailVenta_product">
           <End Role="Producto" Type="Self.Producto" Multiplicity="1" />
           <End Role="Venta_detalle" Type="Self.Venta_detalle" Multiplicity="*" />
           <ReferentialConstraint>
@@ -126,7 +114,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_detailVenta_venta">
+        <Association Name="detailVenta_venta">
           <End Role="Venta" Type="Self.Venta" Multiplicity="1" />
           <End Role="Venta_detalle" Type="Self.Venta_detalle" Multiplicity="*" />
           <ReferentialConstraint>
@@ -138,31 +126,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_product_category">
-          <End Role="Categoria" Type="Self.Categoria" Multiplicity="1" />
-          <End Role="Producto" Type="Self.Producto" Multiplicity="*" />
+        <Association Name="FK_Venta_Cliente">
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="0..1" />
+          <End Role="Venta" Type="Self.Venta" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Categoria">
-              <PropertyRef Name="id_categoria" />
+            <Principal Role="Cliente">
+              <PropertyRef Name="id_cliente" />
             </Principal>
-            <Dependent Role="Producto">
-              <PropertyRef Name="id_categoria" />
+            <Dependent Role="Venta">
+              <PropertyRef Name="id_cliente" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_product_user">
-          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
-          <End Role="Producto" Type="Self.Producto" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Usuario">
-              <PropertyRef Name="id_usuario" />
-            </Principal>
-            <Dependent Role="Producto">
-              <PropertyRef Name="create_by" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_venta_user">
+        <Association Name="FK_Venta_Usuario">
           <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
           <End Role="Venta" Type="Self.Venta" Multiplicity="*" />
           <ReferentialConstraint>
@@ -174,6 +150,38 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="product_category">
+          <End Role="Categoria" Type="Self.Categoria" Multiplicity="1" />
+          <End Role="Producto" Type="Self.Producto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categoria">
+              <PropertyRef Name="id_categoria" />
+            </Principal>
+            <Dependent Role="Producto">
+              <PropertyRef Name="id_categoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="product_user">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Producto" Type="Self.Producto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="id_usuario" />
+            </Principal>
+            <Dependent Role="Producto">
+              <PropertyRef Name="create_by" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="InsertarProductoDB" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="descripcion" Type="varchar" Mode="In" />
+          <Parameter Name="precio_costo" Type="float" Mode="In" />
+          <Parameter Name="precio_venta" Type="float" Mode="In" />
+          <Parameter Name="stock" Type="int" Mode="In" />
+          <Parameter Name="id_categoria" Type="int" Mode="In" />
+          <Parameter Name="create_by" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="Admin_shopModelStoreContainer">
           <EntitySet Name="Categoria" EntityType="Self.Categoria" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cliente" EntityType="Self.Cliente" Schema="dbo" store:Type="Tables" />
@@ -181,33 +189,33 @@
           <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Venta" EntityType="Self.Venta" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Venta_detalle" EntityType="Self.Venta_detalle" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Venta__id_client__01142BA1" Association="Self.FK__Venta__id_client__01142BA1">
-            <End Role="Cliente" EntitySet="Cliente" />
-            <End Role="Venta" EntitySet="Venta" />
-          </AssociationSet>
-          <AssociationSet Name="FK_client_user" Association="Self.FK_client_user">
+          <AssociationSet Name="client_user" Association="Self.client_user">
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="Cliente" EntitySet="Cliente" />
           </AssociationSet>
-          <AssociationSet Name="FK_detailVenta_product" Association="Self.FK_detailVenta_product">
+          <AssociationSet Name="detailVenta_product" Association="Self.detailVenta_product">
             <End Role="Producto" EntitySet="Producto" />
             <End Role="Venta_detalle" EntitySet="Venta_detalle" />
           </AssociationSet>
-          <AssociationSet Name="FK_detailVenta_venta" Association="Self.FK_detailVenta_venta">
+          <AssociationSet Name="detailVenta_venta" Association="Self.detailVenta_venta">
             <End Role="Venta" EntitySet="Venta" />
             <End Role="Venta_detalle" EntitySet="Venta_detalle" />
           </AssociationSet>
-          <AssociationSet Name="FK_product_category" Association="Self.FK_product_category">
+          <AssociationSet Name="FK_Venta_Cliente" Association="Self.FK_Venta_Cliente">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Venta" EntitySet="Venta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Venta_Usuario" Association="Self.FK_Venta_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Venta" EntitySet="Venta" />
+          </AssociationSet>
+          <AssociationSet Name="product_category" Association="Self.product_category">
             <End Role="Categoria" EntitySet="Categoria" />
             <End Role="Producto" EntitySet="Producto" />
           </AssociationSet>
-          <AssociationSet Name="FK_product_user" Association="Self.FK_product_user">
+          <AssociationSet Name="product_user" Association="Self.product_user">
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="Producto" EntitySet="Producto" />
-          </AssociationSet>
-          <AssociationSet Name="FK_venta_user" Association="Self.FK_venta_user">
-            <End Role="Usuario" EntitySet="Usuario" />
-            <End Role="Venta" EntitySet="Venta" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -219,12 +227,12 @@
           <Key>
             <PropertyRef Name="id_categoria" />
           </Key>
-          <Property Name="id_categoria" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_categoria" Type="Int32" Nullable="false" />
           <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="create_date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="modify_date" Type="DateTime" Precision="3" />
+          <Property Name="create_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="modify_date" Type="DateTime" Precision="0" />
           <Property Name="estado" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Producto" Relationship="Self.FK_product_category" FromRole="Categoria" ToRole="Producto" />
+          <NavigationProperty Name="Producto" Relationship="Self.product_category" FromRole="Categoria" ToRole="Producto" />
         </EntityType>
         <EntityType Name="Cliente">
           <Key>
@@ -237,13 +245,13 @@
           <Property Name="telefono" Type="Int64" Nullable="false" />
           <Property Name="dni" Type="Int64" Nullable="false" />
           <Property Name="instagram" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="create_date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="modify_date" Type="DateTime" Precision="3" />
+          <Property Name="create_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="modify_date" Type="DateTime" Precision="0" />
           <Property Name="domicilio" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="id_usuario" Type="Int32" Nullable="false" />
           <Property Name="estado" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Venta" Relationship="Self.FK__Venta__id_client__01142BA1" FromRole="Cliente" ToRole="Venta" />
-          <NavigationProperty Name="Usuario" Relationship="Self.FK_client_user" FromRole="Cliente" ToRole="Usuario" />
+          <NavigationProperty Name="Usuario" Relationship="Self.client_user" FromRole="Cliente" ToRole="Usuario" />
+          <NavigationProperty Name="Venta" Relationship="Self.FK_Venta_Cliente" FromRole="Cliente" ToRole="Venta" />
         </EntityType>
         <EntityType Name="Producto">
           <Key>
@@ -254,14 +262,14 @@
           <Property Name="precio_costo" Type="Double" Nullable="false" />
           <Property Name="precio_venta" Type="Double" Nullable="false" />
           <Property Name="stock" Type="Int32" Nullable="false" />
-          <Property Name="create_date" Type="DateTime" Precision="3" />
-          <Property Name="modify_date" Type="DateTime" Precision="3" />
+          <Property Name="create_date" Type="DateTime" Precision="0" />
+          <Property Name="modify_date" Type="DateTime" Precision="0" />
           <Property Name="id_categoria" Type="Int32" Nullable="false" />
           <Property Name="create_by" Type="Int32" Nullable="false" />
           <Property Name="estado" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Categoria" Relationship="Self.FK_product_category" FromRole="Producto" ToRole="Categoria" />
-          <NavigationProperty Name="Venta_detalle" Relationship="Self.FK_detailVenta_product" FromRole="Producto" ToRole="Venta_detalle" />
-          <NavigationProperty Name="Usuario" Relationship="Self.FK_product_user" FromRole="Producto" ToRole="Usuario" />
+          <NavigationProperty Name="Categoria" Relationship="Self.product_category" FromRole="Producto" ToRole="Categoria" />
+          <NavigationProperty Name="Venta_detalle" Relationship="Self.detailVenta_product" FromRole="Producto" ToRole="Venta_detalle" />
+          <NavigationProperty Name="Usuario" Relationship="Self.product_user" FromRole="Producto" ToRole="Usuario" />
         </EntityType>
         <EntityType Name="Usuario">
           <Key>
@@ -276,12 +284,12 @@
           <Property Name="apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="telefono" Type="Int64" Nullable="false" />
           <Property Name="instagram" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="create_date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="modify_date" Type="DateTime" Precision="3" />
+          <Property Name="create_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="modify_date" Type="DateTime" Precision="0" />
           <Property Name="estado" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Cliente" Relationship="Self.FK_client_user" FromRole="Usuario" ToRole="Cliente" />
-          <NavigationProperty Name="Producto" Relationship="Self.FK_product_user" FromRole="Usuario" ToRole="Producto" />
-          <NavigationProperty Name="Venta" Relationship="Self.FK_venta_user" FromRole="Usuario" ToRole="Venta" />
+          <NavigationProperty Name="Cliente" Relationship="Self.client_user" FromRole="Usuario" ToRole="Cliente" />
+          <NavigationProperty Name="Producto" Relationship="Self.product_user" FromRole="Usuario" ToRole="Producto" />
+          <NavigationProperty Name="Venta" Relationship="Self.FK_Venta_Usuario" FromRole="Usuario" ToRole="Venta" />
         </EntityType>
         <EntityType Name="Venta">
           <Key>
@@ -289,15 +297,15 @@
           </Key>
           <Property Name="id_venta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="total" Type="Double" Nullable="false" />
-          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="create_date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="modify_date" Type="DateTime" Precision="3" />
-          <Property Name="id_usuario" Type="Int32" Nullable="false" />
-          <Property Name="estado" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="id_cliente" Type="Int32" />
-          <NavigationProperty Name="Cliente" Relationship="Self.FK__Venta__id_client__01142BA1" FromRole="Venta" ToRole="Cliente" />
-          <NavigationProperty Name="Usuario" Relationship="Self.FK_venta_user" FromRole="Venta" ToRole="Usuario" />
-          <NavigationProperty Name="Venta_detalle" Relationship="Self.FK_detailVenta_venta" FromRole="Venta" ToRole="Venta_detalle" />
+          <Property Name="id_usuario" Type="Int32" Nullable="false" />
+          <Property Name="create_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="modify_date" Type="DateTime" Precision="0" />
+          <Property Name="estado" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Cliente" Relationship="Self.FK_Venta_Cliente" FromRole="Venta" ToRole="Cliente" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK_Venta_Usuario" FromRole="Venta" ToRole="Usuario" />
+          <NavigationProperty Name="Venta_detalle" Relationship="Self.detailVenta_venta" FromRole="Venta" ToRole="Venta_detalle" />
         </EntityType>
         <EntityType Name="Venta_detalle">
           <Key>
@@ -306,15 +314,15 @@
           <Property Name="id_venta_detalle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="cantidad" Type="Int32" Nullable="false" />
           <Property Name="subtotal" Type="Double" Nullable="false" />
-          <Property Name="create_date" Type="DateTime" Precision="3" />
-          <Property Name="modify_date" Type="DateTime" Precision="3" />
+          <Property Name="create_date" Type="DateTime" Precision="0" />
+          <Property Name="modify_date" Type="DateTime" Precision="0" />
           <Property Name="id_venta" Type="Int32" Nullable="false" />
           <Property Name="id_producto" Type="Int32" Nullable="false" />
           <Property Name="estado" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Producto" Relationship="Self.FK_detailVenta_product" FromRole="Venta_detalle" ToRole="Producto" />
-          <NavigationProperty Name="Venta" Relationship="Self.FK_detailVenta_venta" FromRole="Venta_detalle" ToRole="Venta" />
+          <NavigationProperty Name="Producto" Relationship="Self.detailVenta_product" FromRole="Venta_detalle" ToRole="Producto" />
+          <NavigationProperty Name="Venta" Relationship="Self.detailVenta_venta" FromRole="Venta_detalle" ToRole="Venta" />
         </EntityType>
-        <Association Name="FK_product_category">
+        <Association Name="product_category">
           <End Role="Categoria" Type="Self.Categoria" Multiplicity="1" />
           <End Role="Producto" Type="Self.Producto" Multiplicity="*" />
           <ReferentialConstraint>
@@ -326,19 +334,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Venta__id_client__01142BA1">
-          <End Role="Cliente" Type="Self.Cliente" Multiplicity="0..1" />
-          <End Role="Venta" Type="Self.Venta" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Cliente">
-              <PropertyRef Name="id_cliente" />
-            </Principal>
-            <Dependent Role="Venta">
-              <PropertyRef Name="id_cliente" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_client_user">
+        <Association Name="client_user">
           <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
           <End Role="Cliente" Type="Self.Cliente" Multiplicity="*" />
           <ReferentialConstraint>
@@ -350,7 +346,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_detailVenta_product">
+        <Association Name="FK_Venta_Cliente">
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="0..1" />
+          <End Role="Venta" Type="Self.Venta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="id_cliente" />
+            </Principal>
+            <Dependent Role="Venta">
+              <PropertyRef Name="id_cliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="detailVenta_product">
           <End Role="Producto" Type="Self.Producto" Multiplicity="1" />
           <End Role="Venta_detalle" Type="Self.Venta_detalle" Multiplicity="*" />
           <ReferentialConstraint>
@@ -362,7 +370,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_product_user">
+        <Association Name="product_user">
           <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
           <End Role="Producto" Type="Self.Producto" Multiplicity="*" />
           <ReferentialConstraint>
@@ -374,7 +382,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_venta_user">
+        <Association Name="FK_Venta_Usuario">
           <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
           <End Role="Venta" Type="Self.Venta" Multiplicity="*" />
           <ReferentialConstraint>
@@ -386,7 +394,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_detailVenta_venta">
+        <Association Name="detailVenta_venta">
           <End Role="Venta" Type="Self.Venta" Multiplicity="1" />
           <End Role="Venta_detalle" Type="Self.Venta_detalle" Multiplicity="*" />
           <ReferentialConstraint>
@@ -405,34 +413,42 @@
           <EntitySet Name="Usuario" EntityType="Self.Usuario" />
           <EntitySet Name="Venta" EntityType="Self.Venta" />
           <EntitySet Name="Venta_detalle" EntityType="Self.Venta_detalle" />
-          <AssociationSet Name="FK_product_category" Association="Self.FK_product_category">
+          <AssociationSet Name="product_category" Association="Self.product_category">
             <End Role="Categoria" EntitySet="Categoria" />
             <End Role="Producto" EntitySet="Producto" />
           </AssociationSet>
-          <AssociationSet Name="FK__Venta__id_client__01142BA1" Association="Self.FK__Venta__id_client__01142BA1">
-            <End Role="Cliente" EntitySet="Cliente" />
-            <End Role="Venta" EntitySet="Venta" />
-          </AssociationSet>
-          <AssociationSet Name="FK_client_user" Association="Self.FK_client_user">
+          <AssociationSet Name="client_user" Association="Self.client_user">
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="Cliente" EntitySet="Cliente" />
           </AssociationSet>
-          <AssociationSet Name="FK_detailVenta_product" Association="Self.FK_detailVenta_product">
+          <AssociationSet Name="FK_Venta_Cliente" Association="Self.FK_Venta_Cliente">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Venta" EntitySet="Venta" />
+          </AssociationSet>
+          <AssociationSet Name="detailVenta_product" Association="Self.detailVenta_product">
             <End Role="Producto" EntitySet="Producto" />
             <End Role="Venta_detalle" EntitySet="Venta_detalle" />
           </AssociationSet>
-          <AssociationSet Name="FK_product_user" Association="Self.FK_product_user">
+          <AssociationSet Name="product_user" Association="Self.product_user">
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="Producto" EntitySet="Producto" />
           </AssociationSet>
-          <AssociationSet Name="FK_venta_user" Association="Self.FK_venta_user">
+          <AssociationSet Name="FK_Venta_Usuario" Association="Self.FK_Venta_Usuario">
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="Venta" EntitySet="Venta" />
           </AssociationSet>
-          <AssociationSet Name="FK_detailVenta_venta" Association="Self.FK_detailVenta_venta">
+          <AssociationSet Name="detailVenta_venta" Association="Self.detailVenta_venta">
             <End Role="Venta" EntitySet="Venta" />
             <End Role="Venta_detalle" EntitySet="Venta_detalle" />
           </AssociationSet>
+          <FunctionImport Name="InsertarProductoDB">
+            <Parameter Name="descripcion" Mode="In" Type="String" />
+            <Parameter Name="precio_costo" Mode="In" Type="Double" />
+            <Parameter Name="precio_venta" Mode="In" Type="Double" />
+            <Parameter Name="stock" Mode="In" Type="Int32" />
+            <Parameter Name="id_categoria" Mode="In" Type="Int32" />
+            <Parameter Name="create_by" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -509,11 +525,11 @@
                 <ScalarProperty Name="id_venta" ColumnName="id_venta" />
                 <ScalarProperty Name="total" ColumnName="total" />
                 <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="id_cliente" ColumnName="id_cliente" />
+                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
                 <ScalarProperty Name="create_date" ColumnName="create_date" />
                 <ScalarProperty Name="modify_date" ColumnName="modify_date" />
-                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
                 <ScalarProperty Name="estado" ColumnName="estado" />
-                <ScalarProperty Name="id_cliente" ColumnName="id_cliente" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -531,6 +547,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="InsertarProductoDB" FunctionName="Admin_shopModel.Store.InsertarProductoDB" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

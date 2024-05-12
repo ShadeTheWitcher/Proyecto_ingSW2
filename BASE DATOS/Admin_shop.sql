@@ -71,6 +71,12 @@ CREATE TABLE Venta
   CONSTRAINT state_sale CHECK (estado IN (0,1))
 );
 
+
+-- SOLUCION ERROR: error al replicar base decimal no coincide con double
+ALTER TABLE Venta
+ALTER COLUMN total FLOAT NOT NULL;
+
+
 CREATE TABLE Producto
 (
   id_producto INT NOT NULL IDENTITY,
@@ -108,6 +114,29 @@ CREATE TABLE Venta_detalle
   CONSTRAINT state_detailSale CHECK (estado IN (0,1)),
   CONSTRAINT cantidad_posit CHECK(cantidad > 0)
 );
+
+-- procedimientos almacenados
+
+CREATE PROCEDURE InsertarProductoDB
+    @descripcion VARCHAR(100),
+    @precio_costo FLOAT,
+    @precio_venta FLOAT,
+    @stock INT,
+    @id_categoria INT,
+    @create_by INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Insertar la nueva fila en la tabla Producto
+    INSERT INTO Producto (descripcion, precio_costo, precio_venta, stock, id_categoria, create_by)
+    VALUES (@descripcion, @precio_costo, @precio_venta, @stock, @id_categoria, @create_by);
+
+    -- Mostrar mensaje de éxito
+    PRINT 'Producto insertado correctamente.';
+END;
+
+
 
 
 --Super usuario --contraseña 123

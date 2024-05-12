@@ -12,6 +12,8 @@ namespace Proyecto_Taller_AdminShop.Classes.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class Admin_shopEntities : DbContext
     {
@@ -31,5 +33,34 @@ namespace Proyecto_Taller_AdminShop.Classes.Models
         public virtual DbSet<Usuario> Usuario { get; set; }
         public virtual DbSet<Venta> Venta { get; set; }
         public virtual DbSet<Venta_detalle> Venta_detalle { get; set; }
+    
+        public virtual int InsertarProductoDB(string descripcion, Nullable<double> precio_costo, Nullable<double> precio_venta, Nullable<int> stock, Nullable<int> id_categoria, Nullable<int> create_by)
+        {
+            var descripcionParameter = descripcion != null ?
+                new ObjectParameter("descripcion", descripcion) :
+                new ObjectParameter("descripcion", typeof(string));
+    
+            var precio_costoParameter = precio_costo.HasValue ?
+                new ObjectParameter("precio_costo", precio_costo) :
+                new ObjectParameter("precio_costo", typeof(double));
+    
+            var precio_ventaParameter = precio_venta.HasValue ?
+                new ObjectParameter("precio_venta", precio_venta) :
+                new ObjectParameter("precio_venta", typeof(double));
+    
+            var stockParameter = stock.HasValue ?
+                new ObjectParameter("stock", stock) :
+                new ObjectParameter("stock", typeof(int));
+    
+            var id_categoriaParameter = id_categoria.HasValue ?
+                new ObjectParameter("id_categoria", id_categoria) :
+                new ObjectParameter("id_categoria", typeof(int));
+    
+            var create_byParameter = create_by.HasValue ?
+                new ObjectParameter("create_by", create_by) :
+                new ObjectParameter("create_by", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertarProductoDB", descripcionParameter, precio_costoParameter, precio_ventaParameter, stockParameter, id_categoriaParameter, create_byParameter);
+        }
     }
 }

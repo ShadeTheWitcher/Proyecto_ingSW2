@@ -67,7 +67,7 @@ namespace Proyecto_Taller_AdminShop
 
         private void LoadVentasView()
         {
-            ProductosView ventasView = new ProductosView();
+            VentasView ventasView = new VentasView();
             panel3.Controls.Add(ventasView);
         }
 

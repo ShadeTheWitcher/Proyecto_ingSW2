@@ -118,6 +118,39 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\Models\Categoria.cs">
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Models\Cliente.cs">
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Models\db.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>db.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Models\db.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Models\db.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>db.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Models\Producto.cs">
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Models\Usuario.cs">
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Models\Venta.cs">
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Models\Venta_detalle.cs">
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
     <Compile Include="Forms\SubAdmin\Producto\AgregarProductoForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -137,43 +170,10 @@
     <Compile Include="Classes\Informes\InformeClientes.cs" />
     <Compile Include="Classes\Informes\InformeProductoUnstock.cs" />
     <Compile Include="Classes\Informes\InformeVentas.cs" />
-    <Compile Include="Classes\Models\Categoria.cs">
-      <DependentUpon>db.tt</DependentUpon>
-    </Compile>
     <Compile Include="Classes\Models\CategoriaConCantidadVendida.cs" />
-    <Compile Include="Classes\Models\Cliente.cs">
-      <DependentUpon>db.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Classes\Models\db.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>db.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Classes\Models\db.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>db.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Classes\Models\db.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>db.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Classes\Models\MejoresClientes.cs" />
     <Compile Include="Classes\Models\MejoresVendedores.cs" />
-    <Compile Include="Classes\Models\Producto.cs">
-      <DependentUpon>db.tt</DependentUpon>
-    </Compile>
     <Compile Include="Classes\Models\ProductosConCategoria.cs" />
-    <Compile Include="Classes\Models\Usuario.cs">
-      <DependentUpon>db.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Classes\Models\Venta.cs">
-      <DependentUpon>db.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Classes\Models\Venta_detalle.cs">
-      <DependentUpon>db.tt</DependentUpon>
-    </Compile>
     <Compile Include="Classes\ProductoController.cs" />
     <Compile Include="Classes\SaleController.cs" />
     <Compile Include="Classes\userController.cs" />
@@ -438,7 +438,6 @@
       <LastGenOutput>db.cs</LastGenOutput>
     </Content>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

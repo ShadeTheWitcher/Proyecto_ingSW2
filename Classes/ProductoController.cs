@@ -90,6 +90,13 @@ namespace Proyecto_Taller_AdminShop.Classes
             
         }
 
+        public static void InsertarProducto(string descripcion, float precioCosto, float precioVenta, int stock, int idCategoria, int createBy)
+        {
+            // Llama al procedimiento almacenado de inserción de producto
+            db.InsertarProductoDB(descripcion, precioCosto, precioVenta, stock, idCategoria, createBy);
+        }
+
+
         public static void deleteProduct(int id) {
             Producto productoToDelete = db.Producto.Where(d => d.id_producto == id).First();
 
