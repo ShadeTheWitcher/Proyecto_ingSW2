@@ -105,65 +105,67 @@ namespace Proyecto_Taller_AdminShop
 
         private void button1_Click_RegistrarProducto(object sender, EventArgs e)
         {
+            ProductoController productoController = new ProductoController();
+
+            try
+            {
+                if (productoController.RegistrarProducto(
+                    TextDescription.Text, 
+                    comboBox1.SelectedItem, 
+                    PrecioCosto.Text, 
+                    PrecioVenta.Text, 
+                    Stock.Text))
+                    {
+                        MessageBox.Show("Producto añadido satisfactoriamente.", "Producto Añadido", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al añadir producto: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+        }
+            
+        
+
+        private bool ValidarCamposProducto()
+        {
             if (!ValidationProducts.IsCategorySelected(comboBox1))
             {
                 MessageBox.Show("Por favor, seleccione una categoría.");
-                return;
+                return false;
             }
-
 
             if (!ValidationProducts.IsDescriptionValid(TextDescription.Text))
             {
                 MessageBox.Show("La descripción no puede estar vacía.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                return false;
             }
 
-            decimal priceCost;
-            if (!decimal.TryParse(PrecioCosto.Text, out priceCost) || !ValidationProducts.IsPriceValid(priceCost))
+            if (!decimal.TryParse(PrecioCosto.Text, out decimal priceCost) || !ValidationProducts.IsPriceValid(priceCost))
             {
                 MessageBox.Show("Ingrese un precio de costo válido (mayor a 0).", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                return false;
             }
 
-            decimal priceSale;
-            if (!decimal.TryParse(PrecioVenta.Text, out priceSale) || !ValidationProducts.IsPriceValid(priceSale))
+            if (!decimal.TryParse(PrecioVenta.Text, out decimal priceSale) || !ValidationProducts.IsPriceValid(priceSale))
             {
                 MessageBox.Show("Ingrese un precio de venta válido (mayor a 0).", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                return false;
             }
 
-            int stock;
-            if (!int.TryParse(Stock.Text, out stock) || !ValidationProducts.IsStockValid(stock))
+            if (!int.TryParse(Stock.Text, out int stock) || !ValidationProducts.IsStockValid(stock))
             {
                 MessageBox.Show("El stock no puede ser negativo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                return false;
             }
 
-            try
-            {
-                if (comboBox1.SelectedItem is ComboBoxItem selectedItem)
-                {
-                    int categoriaId = selectedItem.Value;
-                    // Haz algo con el valor...
-                    float precioCosto = Convert.ToSingle(priceCost);
-                    float precioVenta = Convert.ToSingle(priceSale);
-
-
-                    //ProductoController.addProduct(TextDescription.Text, categoriaId, precioCosto, precioVenta, stock);
-
-                    ProductoController.InsertarProducto(TextDescription.Text, precioCosto, precioVenta, stock, categoriaId, 1);
-
-                    MessageBox.Show("Producto añadido satisfactoriamente.", "Producto Añadido", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                }
-
-            }
-            catch (Exception ex)
-            {
-                // Manejar errores que puedan ocurrir durante la adición del producto
-                MessageBox.Show("Error al añadir producto: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            return true;
         }
+
+
+
+
+
 
         private void AgregarProductoForm_Load(object sender, EventArgs e)
         {

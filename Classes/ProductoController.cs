@@ -90,6 +90,116 @@ namespace Proyecto_Taller_AdminShop.Classes
             
         }
 
+        public bool ValidarCamposProducto1(string descripcion, object selectedItem, string precioCostoStr, string precioVentaStr, string stockStr,
+        out string errorMessage,
+        out Producto producto)
+        {
+            producto = null;
+            errorMessage = string.Empty;
+
+            if (!IsCategorySelected(selectedItem))
+            {
+                errorMessage = "Por favor, seleccione una categoría.";
+                return false;
+            }
+
+            if (!IsDescriptionValid(descripcion))
+            {
+                errorMessage = "La descripción no puede estar vacía.";
+                return false;
+            }
+
+            if (!decimal.TryParse(precioCostoStr, out decimal precioCosto) || !IsPriceValid(precioCosto))
+            {
+                errorMessage = "Ingrese un precio de costo válido (mayor a 0).";
+                return false;
+            }
+
+            if (!decimal.TryParse(precioVentaStr, out decimal precioVenta) || !IsPriceValid(precioVenta))
+            {
+                errorMessage = "Ingrese un precio de venta válido (mayor a 0).";
+                return false;
+            }
+
+            if (!int.TryParse(stockStr, out int stock) || !IsStockValid(stock))
+            {
+                errorMessage = "El stock no puede ser negativo.";
+                return false;
+            }
+
+            if (selectedItem is ComboBoxItem comboBoxItem)
+            {
+                int categoriaId = comboBoxItem.Value;
+
+                return true;
+            }
+            else
+            {
+                errorMessage = "Categoría seleccionada no es válida.";
+                return false;
+            }
+        }
+
+
+
+
+        public bool RegistrarProducto(string descripcion, object selectedItem, string precioCostoStr, string precioVentaStr, string stockStr)
+        {
+            if (!IsCategorySelected(selectedItem))
+            {
+                throw new ArgumentException("Por favor, seleccione una categoría.");
+            }
+
+            if (!IsDescriptionValid(descripcion))
+            {
+                throw new ArgumentException("La descripción no puede estar vacía.");
+            }
+
+            if (!decimal.TryParse(precioCostoStr, out decimal precioCosto) || !IsPriceValid(precioCosto))
+            {
+                throw new ArgumentException("Ingrese un precio de costo válido (mayor a 0).");
+            }
+
+            if (!decimal.TryParse(precioVentaStr, out decimal precioVenta) || !IsPriceValid(precioVenta))
+            {
+                throw new ArgumentException("Ingrese un precio de venta válido (mayor a 0).");
+            }
+
+            if (!int.TryParse(stockStr, out int stock) || !IsStockValid(stock))
+            {
+                throw new ArgumentException("El stock no puede ser negativo.");
+            }
+
+            if (selectedItem is ComboBoxItem comboBoxItem)
+            {
+                int categoriaId = comboBoxItem.Value;
+                float precioCostoFloat = Convert.ToSingle(precioCosto);
+                float precioVentaFloat = Convert.ToSingle(precioVenta);
+
+                Producto producto = new Producto
+                {
+                    descripcion = descripcion,
+                    precio_costo = precioCostoFloat,
+                    precio_venta = precioVentaFloat,
+                    stock = stock,
+                    id_categoria = categoriaId
+                };
+
+                // Aquí llamamos al método para insertar el producto en la base de datos o almacenamiento
+                InsertarProducto(descripcion, precioCostoFloat, precioVentaFloat, stock, categoriaId, 1);
+
+                return true;
+            }
+            else
+            {
+                throw new ArgumentException("Categoría seleccionada no es válida.");
+            }
+        }
+
+
+
+
+
         public static void InsertarProducto(string descripcion, float precioCosto, float precioVenta, int stock, int idCategoria, int createBy)
         {
             // Llama al procedimiento almacenado de inserción de producto
@@ -165,6 +275,85 @@ namespace Proyecto_Taller_AdminShop.Classes
                                                                                                                                                                      select p).OrderByDescending(m => m.stock);
             return outOfStockProductsList.ToList();
         }
+
+
+
+        //validaciones
+        private bool IsCategorySelected(object selectedItem)
+        {
+            return selectedItem != null;
+        }
+
+        private bool IsDescriptionValid(string description)
+        {
+            return !string.IsNullOrEmpty(description);
+        }
+
+        private bool IsPriceValid(decimal price)
+        {
+            return price > 0;
+        }
+
+        private bool IsStockValid(int stock)
+        {
+            return stock >= 0;
+        }
+
+
+        public bool ValidarCamposProducto(string descripcion, object selectedItem, string precioCostoStr, string precioVentaStr, string stockStr,
+        out string errorMessage,
+        out Producto producto)
+        {
+            producto = null;
+            errorMessage = string.Empty;
+
+            if (!IsCategorySelected(selectedItem))
+            {
+                errorMessage = "Por favor, seleccione una categoría.";
+                return false;
+            }
+
+            if (!IsDescriptionValid(descripcion))
+            {
+                errorMessage = "La descripción no puede estar vacía.";
+                return false;
+            }
+
+            if (!decimal.TryParse(precioCostoStr, out decimal precioCosto) || !IsPriceValid(precioCosto))
+            {
+                errorMessage = "Ingrese un precio de costo válido (mayor a 0).";
+                return false;
+            }
+
+            if (!decimal.TryParse(precioVentaStr, out decimal precioVenta) || !IsPriceValid(precioVenta))
+            {
+                errorMessage = "Ingrese un precio de venta válido (mayor a 0).";
+                return false;
+            }
+
+            if (!int.TryParse(stockStr, out int stock) || !IsStockValid(stock))
+            {
+                errorMessage = "El stock no puede ser negativo.";
+                return false;
+            }
+
+            if (selectedItem is ComboBoxItem comboBoxItem)
+            {
+                int categoriaId = comboBoxItem.Value;
+
+                return true;
+            }
+            else
+            {
+                errorMessage = "Categoría seleccionada no es válida.";
+                return false;
+            }
+        }
+
+
+
+
+
 
     }
 }
