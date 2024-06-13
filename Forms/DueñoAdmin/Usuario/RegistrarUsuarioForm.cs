@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.Entity;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using Proyecto_Taller_AdminShop.Classes;
 
 namespace Proyecto_Taller_AdminShop
 {
@@ -33,7 +34,7 @@ namespace Proyecto_Taller_AdminShop
 
         private void TBNombre_TextChanged(object sender, EventArgs e)
         {
-            if (ValidationUser.ValidationLengh(TBNombre, 3, 50))
+            if (ValidationUser.ValidationLengh(TBNombre.ToString(), 3, 50))
             {
                 TBNombre.ForeColor = System.Drawing.Color.Black;
             }
@@ -61,7 +62,7 @@ namespace Proyecto_Taller_AdminShop
 
         private void TBEmail_TextChanged(object sender, EventArgs e)
         {
-            if (ValidationUser.ValidationEmail(TBEmail))
+            if (ValidationUser.ValidationEmail(TBEmail.ToString()))
             {
                 // El correo es válido, no hagas nada
                 TBEmail.ForeColor = System.Drawing.Color.Black; // Restaurar el color del texto
@@ -91,7 +92,7 @@ namespace Proyecto_Taller_AdminShop
 
         private void TBApellido_TextChanged(object sender, EventArgs e)
         {
-            if (ValidationUser.ValidationLengh(TBApellido, 3, 50))
+            if (ValidationUser.ValidationLengh(TBApellido.ToString(), 3, 50))
             {
                 TBApellido.ForeColor = System.Drawing.Color.Black;
             }
@@ -103,7 +104,7 @@ namespace Proyecto_Taller_AdminShop
 
         private void TBContraseña_TextChanged(object sender, EventArgs e)
         {
-            if (ValidationUser.ValidationLengh(TBContraseña, 3, 50))
+            if (ValidationUser.ValidationLengh(TBContraseña.ToString(), 3, 50))
             {
                 TBContraseña.ForeColor = System.Drawing.Color.Black;
             }
@@ -115,7 +116,7 @@ namespace Proyecto_Taller_AdminShop
 
         private void TBTelefono_TextChanged(object sender, EventArgs e)
         {
-            if (ValidationUser.ValidationLengh(TBTelefono, 3, 50))
+            if (ValidationUser.ValidationLengh(TBTelefono.ToString(), 3, 50))
             {
                 TBTelefono.ForeColor = System.Drawing.Color.Black;
             }
@@ -127,7 +128,7 @@ namespace Proyecto_Taller_AdminShop
 
         private void TBDni_TextChanged(object sender, EventArgs e)
         {
-            if (ValidationUser.ValidationLengh(TBDni, 3, 50))
+            if (ValidationUser.ValidationLengh(TBDni.ToString(), 3, 50))
             {
                 TBDni.ForeColor = System.Drawing.Color.Black;
             }
@@ -139,7 +140,7 @@ namespace Proyecto_Taller_AdminShop
 
         private void TBInstagram_TextChanged(object sender, EventArgs e)
         {
-            if (ValidationUser.ValidationLengh(TBInstagram, 3, 50))
+            if (ValidationUser.ValidationLengh(TBInstagram.ToString(), 3, 50))
             {
                 TBInstagram.ForeColor = System.Drawing.Color.Black;
             }
@@ -151,7 +152,7 @@ namespace Proyecto_Taller_AdminShop
 
         private void TBContraseña_TextChanged_1(object sender, EventArgs e)
         {
-            if (ValidationUser.ValidationLengh(TBContraseña, 3, 50))
+            if (ValidationUser.ValidationLengh(TBContraseña.ToString(), 3, 50))
             {
                 TBContraseña.ForeColor = System.Drawing.Color.Black;
             }
@@ -168,64 +169,33 @@ namespace Proyecto_Taller_AdminShop
 
         private void BRUser_Click_RegistrarEmpleado(object sender, EventArgs e)
         {
-            bool valid = ValidationUser.ValidationEmail(TBEmail)
-               && ValidationUser.ValidationLengh(TBNombre, 3, 50)
-               && ValidationUser.ValidationLengh(TBApellido, 3, 50)
-               && ValidationUser.ValidationLengh(TBTelefono, 3, 50)
-               && ValidationUser.ValidationLengh(TBContraseña, 6, 20)
-               && ValidationUser.ValidationLengh(TBDni, 3, 50)
-               && ValidationUser.ValidationLengh(TBInstagram, 3, 50)
-               && CBRol.SelectedIndex != -1;
+            string nombre = TBNombre.Text;
+            string apellido = TBApellido.Text;
+            string email = TBEmail.Text;
+            string contraseña = TBContraseña.Text;
+            string dni = TBDni.Text;
+            string instagram = TBInstagram.Text;
+            string telefono = TBTelefono.Text;
+            string rol = CBRol.SelectedItem?.ToString();
 
-            if (valid)
+            string resultado = UserController.RegistrarUsuario(nombre, apellido, email, contraseña, dni, instagram, telefono, rol);
+
+            if (resultado == "Usuario creado correctamente!")
             {
+                MessageBox.Show(resultado, "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                string sPass = Classes.Encrypt.GetSHA256(TBContraseña.Text.Trim());
-                using (Classes.Models.Admin_shopEntities db = new Classes.Models.Admin_shopEntities())
-                {
-                    if (!ValidationUser.ValidateUniqueEmail(db, TBEmail.Text))
-                    {
-                        Usuario user = new Usuario();
-                        if (CBRol.SelectedItem.ToString() == "Vendedor")
-                        {
-                            user.tipo_usuario = 2;
-                        }
-                        else if (CBRol.SelectedItem.ToString() == "Administrador")
-                        {
-                            user.tipo_usuario = 3;
-                        }
-                        user.nombre = TBNombre.Text.Trim();
-                        user.contraseña = sPass;
-                        user.correo = TBEmail.Text.Trim();
-                        user.dni = long.Parse(TBDni.Text);
-                        user.apellido = TBApellido.Text.Trim();
-                        user.instagram = TBInstagram.Text.Trim();
-                        user.telefono = long.Parse(TBTelefono.Text);
-                        int estado = 1;
-                        user.estado = estado.ToString();
-
-                        db.Usuario.Add(user);
-                        db.SaveChanges();
-                        MessageBox.Show("Usuario Creado Correctamente!", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                        TBNombre.Clear();
-                        TBApellido.Clear();
-                        TBContraseña.Clear();
-                        CBRol.SelectedIndex = -1;
-                        TBEmail.Clear();
-                        TBDni.Clear();
-                        TBInstagram.Clear();
-                        TBTelefono.Clear();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Correo ya registrado!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
+                TBNombre.Clear();
+                TBApellido.Clear();
+                TBContraseña.Clear();
+                CBRol.SelectedIndex = -1;
+                TBEmail.Clear();
+                TBDni.Clear();
+                TBInstagram.Clear();
+                TBTelefono.Clear();
             }
             else
             {
-                MessageBox.Show("Complete todos los campos correctamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(resultado, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

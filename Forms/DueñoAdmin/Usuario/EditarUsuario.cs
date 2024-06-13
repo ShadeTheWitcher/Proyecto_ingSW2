@@ -1,4 +1,5 @@
-﻿using Proyecto_Taller_AdminShop.Classes.Models;
+﻿using Proyecto_Taller_AdminShop.Classes;
+using Proyecto_Taller_AdminShop.Classes.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -48,56 +49,41 @@ namespace Proyecto_Taller_AdminShop
 
         private void button1_Click(object sender, EventArgs e)
         {
-            int rol = 1;
-            bool valid = ValidationUser.ValidationEmail(TBEmail)
-                && ValidationUser.ValidationLengh(TBEmail,8,40)
-                && ValidationUser.ValidationLengh(TBNombre, 3, 50)
-                && ValidationUser.ValidationLengh(TBApellido, 3, 50)
-                && ValidationUser.ValidationLengh(TBtelefono, 10, 50)
-                && ValidationUser.ValidationLengh(TBDni, 7, 9)
-                && ValidationUser.ValidationLengh(TBInstagram, 3, 50)
-                && CBrol.SelectedIndex != -1;
+            string nombre = TBNombre.Text;
+            string apellido = TBApellido.Text;
+            string email = TBEmail.Text;
+            string dni = TBDni.Text;
+            string instagram = TBInstagram.Text;
+            string telefono = TBtelefono.Text;
+            string rol = CBrol.SelectedItem?.ToString();
 
-            if (valid)
+            // Validar campos y obtener valores parseados
+            long dniParsed, telefonoParsed;
+            string validacion = UserController.validarCampos(nombre, apellido, email, dni, instagram, telefono, rol, out dniParsed, out telefonoParsed, true);
+
+            if (!string.IsNullOrEmpty(validacion))
             {
+                MessageBox.Show(validacion, "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return; // Sale del método si hay errores de validación
+            }
 
-                if (!ValidationUser.ValidateUniqueEmail(new Admin_shopEntities(), TBEmail.Text, true))
-                {
-     
-                    if (CBrol.SelectedItem.ToString() == "Vendedor")
-                    {
-                        rol = 2;
-                    }
-                    else if (CBrol.SelectedItem.ToString() == "Administrador")
-                    {
-                        rol = 3;
-                    }
-                    string name = TBNombre.Text.Trim();
-                    string mail = TBEmail.Text.Trim();
-                    long dni = long.Parse(TBDni.Text);
-                    string lastname = TBApellido.Text.Trim();
-                    string ig = TBInstagram.Text.Trim();
-                    long tf = long.Parse(TBtelefono.Text);
+            // Llamar a EditarUsuario y manejar el resultado
+            string resultado = UserController.EditarUsuario(idUsuario, nombre, apellido, email, dni, instagram, telefono, rol);
 
-                    Classes.UserController.editUser(this.idUsuario, name, lastname, mail, tf, dni, ig, rol);
-                    this.Close();
-                    MessageBox.Show("Usuario Modificado Correctamente!", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                }
-                else
-                {
-                    MessageBox.Show("Correo ya registrado!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+            if (resultado == "Usuario modificado correctamente!")
+            {
+                MessageBox.Show(resultado, "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close(); // Cierra el formulario si la edición fue exitosa
             }
             else
             {
-                MessageBox.Show("Complete todos los campos correctamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(resultado, "Error al Editar Usuario", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void TBNombre_TextChanged(object sender, EventArgs e)
         {
-            if (ValidationUser.ValidationLengh(TBNombre, 3, 50))
+            if (ValidationUser.ValidationLengh(TBNombre.ToString(), 3, 50))
             {
                 TBNombre.ForeColor = System.Drawing.Color.Black;
             }
@@ -109,7 +95,7 @@ namespace Proyecto_Taller_AdminShop
 
         private void TBApellido_TextChanged(object sender, EventArgs e)
         {
-            if (ValidationUser.ValidationLengh(TBApellido, 3, 50))
+            if (ValidationUser.ValidationLengh(TBApellido.ToString(), 3, 50))
             {
                 TBApellido.ForeColor = System.Drawing.Color.Black;
             }
@@ -121,7 +107,7 @@ namespace Proyecto_Taller_AdminShop
 
         private void TBEmail_TextChanged(object sender, EventArgs e)
         {
-            if (ValidationUser.ValidationLengh(TBEmail, 8, 40) && ValidationUser.ValidationEmail(TBEmail))
+            if (ValidationUser.ValidationLengh(TBEmail.ToString(), 8, 40) && ValidationUser.ValidationEmail(TBEmail.ToString()))
             {
                 TBEmail.ForeColor = System.Drawing.Color.Black;
             }
@@ -134,7 +120,7 @@ namespace Proyecto_Taller_AdminShop
 
         private void TBtelefono_TextChanged(object sender, EventArgs e)
         {
-            if (ValidationUser.ValidationLengh(TBtelefono, 10, 50))
+            if (ValidationUser.ValidationLengh(TBtelefono.ToString(), 10, 50))
             {
                 TBtelefono.ForeColor = System.Drawing.Color.Black;
             }
@@ -146,7 +132,7 @@ namespace Proyecto_Taller_AdminShop
 
         private void TBDni_TextChanged(object sender, EventArgs e)
         {
-            if (ValidationUser.ValidationLengh(TBDni, 7, 9))
+            if (ValidationUser.ValidationLengh(TBDni.ToString(), 7, 9))
             {
                 TBDni.ForeColor = System.Drawing.Color.Black;
             }
@@ -158,7 +144,7 @@ namespace Proyecto_Taller_AdminShop
 
         private void TBInstagram_TextChanged(object sender, EventArgs e)
         {
-            if (ValidationUser.ValidationLengh(TBInstagram, 3, 50))
+            if (ValidationUser.ValidationLengh(TBInstagram.ToString(), 3, 50))
             {
                 TBInstagram.ForeColor = System.Drawing.Color.Black;
             }
