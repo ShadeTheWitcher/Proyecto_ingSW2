@@ -109,14 +109,14 @@ namespace Proyecto_Taller_AdminShop.Classes
             }
             
 
-            //if (string.IsNullOrWhiteSpace(dni) || !long.TryParse(dni, out dniParsed))
-            //    return "El DNI no puede estar vacío.";
+            if (string.IsNullOrWhiteSpace(dni) || !long.TryParse(dni, out dniParsed))
+                return "El DNI no puede estar vacío.";
 
             if (string.IsNullOrWhiteSpace(instagram))
                 return "El nombre de Instagram no puede estar vacío.";
 
-            //if (string.IsNullOrWhiteSpace(telefono) || !long.TryParse(telefono, out telefonoParsed))
-            //    return "El teléfono no puede estar vacío.";
+            if (string.IsNullOrWhiteSpace(telefono) || !long.TryParse(telefono, out telefonoParsed))
+                return "El teléfono no puede estar vacío.";
 
 
 
@@ -158,8 +158,8 @@ namespace Proyecto_Taller_AdminShop.Classes
                 if (ValidationUser.ValidateUniqueEmail(db, email))
                     return "Correo ya registrado.";
 
-                if (ValidationUser.ValidateUniqueDNI(db, dni, edit: false))
-                    return "El DNI proporcionado ya está registrado.";
+                if (!ValidationUser.ValidateUniqueDNI(db, dni))
+                    return "DNI ya registrado por otro usuario.";
 
                 Usuario user = new Usuario
                 {
@@ -197,7 +197,7 @@ namespace Proyecto_Taller_AdminShop.Classes
         {
             // Validar campos y obtener valores parseados
             long dniParsed, telefonoParsed;
-            string validacion = validarCampos(nombre, apellido, email, dni, instagram, telefono, rol,out dniParsed, out telefonoParsed, true);
+            string validacion = validarCampos(nombre, apellido, email, "111" , dni, instagram, telefono ,out dniParsed, out telefonoParsed, true);
 
             if (!string.IsNullOrEmpty(validacion))
                 return validacion;
@@ -211,8 +211,11 @@ namespace Proyecto_Taller_AdminShop.Classes
                     return "Usuario no encontrado.";
 
                 // Validar correo único si se está editando
-                if (!ValidationUser.ValidateUniqueEmail(db, email, true))
+                if (!ValidationUser.ValidateUniqueEmail(db, email, id))
                     return "Correo ya registrado por otro usuario.";
+
+                if (!ValidationUser.ValidateUniqueDNI(db, dni, id))
+                    return "DNI ya registrado por otro usuario.";
 
                 // Actualizar los datos del usuario
                 user.nombre = nombre.Trim();

@@ -35,7 +35,7 @@ namespace Proyecto_Taller_AdminShop
                 TBEmail.Text = user.correo;
                 TBInstagram.Text = user.instagram;
                 TBtelefono.Text = user.telefono.ToString();
-                TBDni.Text = user.telefono.ToString();
+                TBDni.Text = user.dni.ToString();
                 if(user.tipo_usuario == 2)
                 {
                     CBrol.SelectedIndex = 0;
@@ -59,7 +59,7 @@ namespace Proyecto_Taller_AdminShop
 
             // Validar campos y obtener valores parseados
             long dniParsed, telefonoParsed;
-            string validacion = UserController.validarCampos(nombre, apellido, email, dni, instagram, telefono, rol, out dniParsed, out telefonoParsed, true);
+            string validacion = UserController.validarCampos(nombre, apellido, email, "111", dni, instagram, telefono, out dniParsed, out telefonoParsed, true);
 
             if (!string.IsNullOrEmpty(validacion))
             {
@@ -68,7 +68,7 @@ namespace Proyecto_Taller_AdminShop
             }
 
             // Llamar a EditarUsuario y manejar el resultado
-            string resultado = UserController.EditarUsuario(idUsuario, nombre, apellido, email, dni, instagram, telefono, rol);
+            string resultado = UserController.EditarUsuario(this.idUsuario, nombre, apellido, email, dni, instagram, telefono, rol);
 
             if (resultado == "Usuario modificado correctamente!")
             {
@@ -107,7 +107,7 @@ namespace Proyecto_Taller_AdminShop
 
         private void TBEmail_TextChanged(object sender, EventArgs e)
         {
-            if (ValidationUser.ValidationLengh(TBEmail.ToString(), 8, 40) && ValidationUser.ValidationEmail(TBEmail.ToString()))
+            if (ValidationUser.ValidationLengh(TBEmail.Text, 8, 40) && ValidationUser.ValidationEmail(TBEmail.Text))
             {
                 TBEmail.ForeColor = System.Drawing.Color.Black;
             }
@@ -132,7 +132,7 @@ namespace Proyecto_Taller_AdminShop
 
         private void TBDni_TextChanged(object sender, EventArgs e)
         {
-            if (ValidationUser.ValidationLengh(TBDni.ToString(), 7, 9))
+            if (ValidationUser.ValidationLengh(TBDni.Text, 7, 9))
             {
                 TBDni.ForeColor = System.Drawing.Color.Black;
             }

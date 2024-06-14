@@ -23,16 +23,18 @@ namespace Proyecto_Taller_AdminShop
             return text.Length >= 7 && regex.IsMatch(text);
         }
 
-        public static bool ValidateUniqueEmail(Classes.Models.Admin_shopEntities dbContext, string correo, bool edit = false)
+        public static bool ValidateUniqueEmail(Classes.Models.Admin_shopEntities dbContext, string correo, int? id = null)
         {
-            if (edit)
+            if (id.HasValue)
             {
-                return dbContext.Usuario.Where(u => u.correo == correo).Where(u => u.correo != correo).Any();
+                // Excluye el usuario actual de la verificación
+                return !dbContext.Usuario.Any(u => u.correo == correo && u.id_usuario != id.Value);
             }
+            // Para nuevo usuario, verifica si ya existe el correo
             return dbContext.Usuario.Any(u => u.correo == correo);
         }
 
-        public static bool ValidateUniqueDNI(Classes.Models.Admin_shopEntities dbContext, string dni, bool edit = false)
+        public static bool ValidateUniqueDNI(Classes.Models.Admin_shopEntities dbContext, string dni, int? id = null)
         {
             if (!long.TryParse(dni, out long dniNumber))
             {
@@ -40,12 +42,14 @@ namespace Proyecto_Taller_AdminShop
                 return false;
             }
 
-            if (edit)
+            if (id.HasValue)
             {
-                return dbContext.Usuario.Any(u => u.dni == dniNumber && u.dni != dniNumber);
+                // Excluye el usuario actual de la verificación
+                return !dbContext.Usuario.Any(u => u.dni == dniNumber && u.id_usuario != id.Value);
             }
 
-            return dbContext.Usuario.Any(u => u.dni == dniNumber);
+            // Para nuevo usuario, verifica si ya existe el DNI
+            return !dbContext.Usuario.Any(u => u.dni == dniNumber);
         }
 
 
