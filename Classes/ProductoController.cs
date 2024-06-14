@@ -90,117 +90,41 @@ namespace Proyecto_Taller_AdminShop.Classes
             
         }
 
-        public bool ValidarCamposProducto1(string descripcion, object selectedItem, string precioCostoStr, string precioVentaStr, string stockStr,
-        out string errorMessage,
-        out Producto producto)
-        {
-            producto = null;
-            errorMessage = string.Empty;
-
-            if (!IsCategorySelected(selectedItem))
-            {
-                errorMessage = "Por favor, seleccione una categoría.";
-                return false;
-            }
-
-            if (!IsDescriptionValid(descripcion))
-            {
-                errorMessage = "La descripción no puede estar vacía.";
-                return false;
-            }
-
-            if (!decimal.TryParse(precioCostoStr, out decimal precioCosto) || !IsPriceValid(precioCosto))
-            {
-                errorMessage = "Ingrese un precio de costo válido (mayor a 0).";
-                return false;
-            }
-
-            if (!decimal.TryParse(precioVentaStr, out decimal precioVenta) || !IsPriceValid(precioVenta))
-            {
-                errorMessage = "Ingrese un precio de venta válido (mayor a 0).";
-                return false;
-            }
-
-            if (!int.TryParse(stockStr, out int stock) || !IsStockValid(stock))
-            {
-                errorMessage = "El stock no puede ser negativo.";
-                return false;
-            }
-
-            if (selectedItem is ComboBoxItem comboBoxItem)
-            {
-                int categoriaId = comboBoxItem.Value;
-
-                return true;
-            }
-            else
-            {
-                errorMessage = "Categoría seleccionada no es válida.";
-                return false;
-            }
-        }
-
-
-
+        
 
         public bool RegistrarProducto(string descripcion, object selectedItem, string precioCostoStr, string precioVentaStr, string stockStr)
         {
-            if (!IsCategorySelected(selectedItem))
+            string errorMessage;
+            Producto producto;
+
+            // Validar los campos utilizando el método ValidarCamposProducto
+            if (!ValidarCamposProducto(descripcion, selectedItem, precioCostoStr, precioVentaStr, stockStr, out errorMessage, out producto))
             {
-                throw new ArgumentException("Por favor, seleccione una categoría.");
+                throw new ArgumentException(errorMessage);
             }
 
-            if (!IsDescriptionValid(descripcion))
+            try
             {
-                throw new ArgumentException("La descripción no puede estar vacía.");
+                // Aquí podrías llamar a tu método para insertar el producto en la base de datos
+                // Utilizo los valores ya convertidos a float según la lógica de ValidarCamposProducto
+                InsertarProducto(descripcion, producto.precio_costo, producto.precio_venta, producto.stock, producto.id_categoria, 1);
+
+                return true; // Indicación de que el registro fue exitoso
             }
-
-            if (!decimal.TryParse(precioCostoStr, out decimal precioCosto) || !IsPriceValid(precioCosto))
+            catch (Exception ex)
             {
-                throw new ArgumentException("Ingrese un precio de costo válido (mayor a 0).");
-            }
-
-            if (!decimal.TryParse(precioVentaStr, out decimal precioVenta) || !IsPriceValid(precioVenta))
-            {
-                throw new ArgumentException("Ingrese un precio de venta válido (mayor a 0).");
-            }
-
-            if (!int.TryParse(stockStr, out int stock) || !IsStockValid(stock))
-            {
-                throw new ArgumentException("El stock no puede ser negativo.");
-            }
-
-            if (selectedItem is ComboBoxItem comboBoxItem)
-            {
-                int categoriaId = comboBoxItem.Value;
-                float precioCostoFloat = Convert.ToSingle(precioCosto);
-                float precioVentaFloat = Convert.ToSingle(precioVenta);
-
-                Producto producto = new Producto
-                {
-                    descripcion = descripcion,
-                    precio_costo = precioCostoFloat,
-                    precio_venta = precioVentaFloat,
-                    stock = stock,
-                    id_categoria = categoriaId
-                };
-
-                // Aquí llamamos al método para insertar el producto en la base de datos o almacenamiento
-                InsertarProducto(descripcion, precioCostoFloat, precioVentaFloat, stock, categoriaId, 1);
-
-                return true;
-            }
-            else
-            {
-                throw new ArgumentException("Categoría seleccionada no es válida.");
+                // Manejo de errores específicos de la base de datos u otra lógica de inserción
+                throw new Exception("Error al insertar el producto.", ex);
             }
         }
 
+       
 
 
 
 
-        public static void InsertarProducto(string descripcion, float precioCosto, float precioVenta, int stock, int idCategoria, int createBy)
+
+        public static void InsertarProducto(string descripcion, double precioCosto, double precioVenta, int stock, int idCategoria, int createBy)
         {
             // Llama al procedimiento almacenado de inserción de producto
             db.InsertarProductoDB(descripcion, precioCosto, precioVenta, stock, idCategoria, createBy);
@@ -340,6 +264,15 @@ namespace Proyecto_Taller_AdminShop.Classes
             if (selectedItem is ComboBoxItem comboBoxItem)
             {
                 int categoriaId = comboBoxItem.Value;
+
+                producto = new Producto
+                {
+                    descripcion = descripcion,
+                    precio_costo = Convert.ToDouble(precioCosto), // Convertir a float si Producto usa float
+                    precio_venta = Convert.ToDouble(precioVenta), // Convertir a float si Producto usa float
+                    stock = stock,
+                    id_categoria = categoriaId
+                };
 
                 return true;
             }
