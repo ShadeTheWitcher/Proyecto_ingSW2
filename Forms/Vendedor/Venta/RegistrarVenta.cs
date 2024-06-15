@@ -1,4 +1,5 @@
-﻿using Proyecto_Taller_AdminShop.Classes;
+﻿using iTextSharp.tool.xml.parser;
+using Proyecto_Taller_AdminShop.Classes;
 using Proyecto_Taller_AdminShop.Classes.Informes;
 using Proyecto_Taller_AdminShop.Classes.Models;
 using System;
@@ -18,6 +19,7 @@ namespace Proyecto_Taller_AdminShop.Vendedor
     {
         private static Admin_shopEntities db = new Admin_shopEntities();
         private static int idCliente = 0;
+        private SaleController saleController = new SaleController();
         public RegistrarVenta()
 
         {
@@ -33,17 +35,8 @@ namespace Proyecto_Taller_AdminShop.Vendedor
             // Si se ha hecho clic en la columna "Eliminar"
             if (DGSale.Columns[e.ColumnIndex].Name == "eliminar")
             {
-                DGSale.Rows.RemoveAt(e.RowIndex);
-                decimal sumaTotal = 0;
-                foreach (DataGridViewRow row in DGSale.Rows)
-                {
-                    string valorCelda = row.Cells["Precio"].Value?.ToString().Replace("$ ", "");
-                    if (decimal.TryParse(valorCelda, out decimal valorFila))
-                    {
-                        sumaTotal += valorFila;
-                    }
-                }
-                label4.Text = $"Total: $ {sumaTotal}";// Elimina la fila
+                // Utiliza el método del controlador para manejar la eliminación y actualización
+                saleController.EliminarFilaYActualizarTotal(DGSale, e.RowIndex, label4);
             }
         }
 
@@ -183,113 +176,13 @@ namespace Proyecto_Taller_AdminShop.Vendedor
 
         private void agregarButton_Click(object sender, EventArgs e)
         {
-            int cantidad = Convert.ToInt32(cantidadInput.Value);
-            if (cantidad <= 0)
-            {
-                MessageBox.Show("Por favor, ingrese una cantidad válida.", "Cantidad no válida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-
-            if (DG_products_list.CurrentRow == null)
-            {
-                MessageBox.Show("Por favor, seleccione un producto para agregar.", "Producto no seleccionado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            int rowIndex = DG_products_list.CurrentRow.Index;
-            string productoId = DG_products_list.Rows[rowIndex].Cells["ID"].Value.ToString();
-            string nombreProducto = DG_products_list.Rows[rowIndex].Cells["descripcion"].Value.ToString();
-            string precioProducto = DG_products_list.Rows[rowIndex].Cells["pVenta"].Value.ToString().Replace("$ ", "");
-            decimal precio = decimal.Parse(precioProducto);
-            int stock = Convert.ToInt32(DG_products_list.Rows[rowIndex].Cells["stock"].Value);
-
-            if (cantidad > stock)
-            {
-                MessageBox.Show("Por favor, ingrese una cantidad que sea menor o igual al stock actual.", "Cantidad no válida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-
-            // Calcula el precio total basado en la cantidad
-            decimal precioTotal = precio * cantidad;
-
-         
-            int newIndex = DGSale.Rows.Add(productoId, nombreProducto, cantidad, "$ " + precioTotal);
-
-            DataGridViewButtonCell btnEliminar = (DataGridViewButtonCell)DGSale.Rows[newIndex].Cells["Eliminar"];
-            btnEliminar.Value = "Eliminar";
-            btnEliminar.Style.Font = new Font("Quicksand", 10F, FontStyle.Bold); 
-            btnEliminar.FlatStyle = FlatStyle.Flat;
-
-            decimal sumaTotal = 0; 
-            foreach (DataGridViewRow row in DGSale.Rows)
-            {
-                string valorCelda = row.Cells["Precio"].Value?.ToString().Replace("$ ", ""); 
-                if (decimal.TryParse(valorCelda, out decimal valorFila))
-                {
-                    sumaTotal += valorFila;
-                }
-            }
-            label4.Text = $"Total: $ {sumaTotal}";
-           
-            DG_products_list.ClearSelection();
-            cantidadInput.Value = cantidadInput.Minimum;
+            saleController.AgregarProducto(DG_products_list, DGSale, label4, cantidadInput);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
+            saleController.RegistrarVenta(DGSale, DG_products_list, label4, label6, idCliente);
 
-            // Validar si hay productos en DGSale
-            if (DGSale.Rows.Count == 0)
-            {
-                MessageBox.Show("Por favor, agregue productos antes de registrar la venta.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            // Crear nueva venta
-            Venta nuevaVenta = new Venta();
-            nuevaVenta.fecha = DateTime.Now;
-            nuevaVenta.total = float.Parse(label4.Text.Replace("Total: $ ", ""));
-            nuevaVenta.id_usuario = AppState.idUser;
-            if(idCliente != 0)
-            {
-                nuevaVenta.id_cliente = idCliente;
-            }else
-            {
-                nuevaVenta.id_cliente = null;
-            }
-            nuevaVenta.estado = "1";
-            db.Venta.Add(nuevaVenta);
-            db.SaveChanges();
-
-            foreach (DataGridViewRow row in DGSale.Rows)
-            {
-                Venta_detalle detalle = new Venta_detalle();
-
-                detalle.id_venta = nuevaVenta.id_venta;
-                detalle.id_producto = Convert.ToInt32(row.Cells["IdProducto"].Value); // Asegúrate de que el nombre de la columna coincida
-                detalle.cantidad = Convert.ToInt32(row.Cells["Cantidad"].Value);
-                detalle.subtotal = float.Parse(row.Cells["Precio"].Value.ToString().Replace("$ ", ""));
-                SaleController.controlStock(Convert.ToInt32(row.Cells["IdProducto"].Value), Convert.ToInt32(row.Cells["Cantidad"].Value));
-                db.Venta_detalle.Add(detalle);
-            }
-            db.SaveChanges(); // Guarda los detalles de venta en la base de datos
-            InformeClientes.FacturaCliente(nuevaVenta.id_venta, idCliente);
-            db.Database.BeginTransaction().Commit();
-            MessageBox.Show("Venta registrada exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-            
-            DGSale.Rows.Clear();
-            label4.Text = "Total: $ 0";
-            label6.Text = "Consumidor final";// Resetea el total
-            Thread.Sleep(20);
-            DG_products_list.Rows.Clear();
-            foreach (var producto in ProductoController.ProductsAll())
-            {   
-                DG_products_list.Rows.Add(producto.id_producto, producto.descripcion, producto.Categoria.descripcion, "$ " + producto.precio_venta, producto.stock);
-            }
-            idCliente = 0;
         }
 
         private void clientButton_Click(object sender, EventArgs e)

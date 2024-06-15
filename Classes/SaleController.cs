@@ -1,9 +1,13 @@
-﻿using Proyecto_Taller_AdminShop.Classes.Models;
+﻿using Proyecto_Taller_AdminShop.Classes.Informes;
+using Proyecto_Taller_AdminShop.Classes.Models;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Proyecto_Taller_AdminShop.Classes
 {
@@ -90,5 +94,131 @@ namespace Proyecto_Taller_AdminShop.Classes
                 return categoriasConCantidad.ToList();
             }
         }
+
+        public void AgregarProducto(DataGridView productsList, DataGridView saleList, Label totalLabel, NumericUpDown cantidadInput)
+        {
+            int cantidad = Convert.ToInt32(cantidadInput.Value);
+            if (cantidad <= 0)
+            {
+                MessageBox.Show("Por favor, ingrese una cantidad válida.", "Cantidad no válida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (productsList.CurrentRow == null)
+            {
+                MessageBox.Show("Por favor, seleccione un producto para agregar.", "Producto no seleccionado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int rowIndex = productsList.CurrentRow.Index;
+            string productoId = productsList.Rows[rowIndex].Cells["ID"].Value.ToString();
+            string nombreProducto = productsList.Rows[rowIndex].Cells["descripcion"].Value.ToString();
+            string precioProducto = productsList.Rows[rowIndex].Cells["pVenta"].Value.ToString().Replace("$ ", "");
+            decimal precio = decimal.Parse(precioProducto);
+            int stock = Convert.ToInt32(productsList.Rows[rowIndex].Cells["stock"].Value);
+
+            if (cantidad > stock)
+            {
+                MessageBox.Show("Por favor, ingrese una cantidad que sea menor o igual al stock actual.", "Cantidad no válida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            //decimal precioTotal = precio * cantidad;
+            decimal precioTotal = calcularPrecioTotal(precio, cantidad);
+
+            int newIndex = saleList.Rows.Add(productoId, nombreProducto, cantidad, "$ " + precioTotal);
+
+            DataGridViewButtonCell btnEliminar = (DataGridViewButtonCell)saleList.Rows[newIndex].Cells["Eliminar"];
+            btnEliminar.Value = "Eliminar";
+            btnEliminar.Style.Font = new Font("Quicksand", 10F, FontStyle.Bold);
+            btnEliminar.FlatStyle = FlatStyle.Flat;
+
+            ActualizarTotal(saleList, totalLabel);
+
+            productsList.ClearSelection();
+            cantidadInput.Value = cantidadInput.Minimum;
+        }
+
+        private decimal calcularPrecioTotal(decimal precio, int cantidad)
+        {
+            return precio * cantidad;
+        }
+
+        // Método para actualizar el total
+        private void ActualizarTotal(DataGridView saleList, Label totalLabel)
+        {
+            decimal sumaTotal = 0;
+            foreach (DataGridViewRow row in saleList.Rows)
+            {
+                string valorCelda = row.Cells["Precio"].Value?.ToString().Replace("$ ", "");
+                if (decimal.TryParse(valorCelda, out decimal valorFila))
+                {
+                    sumaTotal += valorFila;
+                }
+            }
+            totalLabel.Text = $"Total: $ {sumaTotal}";
+        }
+
+
+
+        // Método para eliminar una fila y actualizar el total
+        public void EliminarFilaYActualizarTotal(DataGridView dataGridView, int rowIndex, Label totalLabel)
+        {
+            dataGridView.Rows.RemoveAt(rowIndex);
+            ActualizarTotal(dataGridView, totalLabel);
+        }
+
+        public void RegistrarVenta(DataGridView saleList, DataGridView productsList, Label totalLabel, Label clienteLabel, int idCliente)
+        {
+            if (saleList.Rows.Count == 0)
+            {
+                MessageBox.Show("Por favor, agregue productos antes de registrar la venta.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            Venta nuevaVenta = new Venta
+            {
+                fecha = DateTime.Now,
+                total = float.Parse(totalLabel.Text.Replace("Total: $ ", "")),
+                id_usuario = AppState.idUser,
+                id_cliente = idCliente != 0 ? (int?)idCliente : null,
+                estado = "1"
+            };
+
+            db.Venta.Add(nuevaVenta);
+            db.SaveChanges();
+
+            foreach (DataGridViewRow row in saleList.Rows)
+            {
+                Venta_detalle detalle = new Venta_detalle
+                {
+                    id_venta = nuevaVenta.id_venta,
+                    id_producto = Convert.ToInt32(row.Cells["IdProducto"].Value),
+                    cantidad = Convert.ToInt32(row.Cells["Cantidad"].Value),
+                    subtotal = float.Parse(row.Cells["Precio"].Value.ToString().Replace("$ ", ""))
+                };
+
+                controlStock(Convert.ToInt32(row.Cells["IdProducto"].Value), Convert.ToInt32(row.Cells["Cantidad"].Value));
+                db.Venta_detalle.Add(detalle);
+            }
+            db.SaveChanges();
+
+            InformeClientes.FacturaCliente(nuevaVenta.id_venta, idCliente);
+            db.Database.BeginTransaction().Commit();
+            MessageBox.Show("Venta registrada exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            saleList.Rows.Clear();
+            totalLabel.Text = "Total: $ 0";
+            clienteLabel.Text = "Consumidor final";
+
+            Thread.Sleep(20);
+            productsList.Rows.Clear();
+            foreach (var producto in ProductoController.ProductsAll())
+            {
+                productsList.Rows.Add(producto.id_producto, producto.descripcion, producto.Categoria.descripcion, "$ " + producto.precio_venta, producto.stock);
+            }
+        }
+
+
     }
 }
