@@ -23,7 +23,7 @@ namespace Proyecto_Taller_AdminShop.Classes
             db = new Admin_shopEntities();
             var users = from d in db.Usuario
                         where d.estado == "1"
-                        where d.id_usuario != AppState.idUser
+                        
                         select d;
             return users.ToList();
         }
@@ -165,7 +165,7 @@ namespace Proyecto_Taller_AdminShop.Classes
                 {
                     nombre = nombre.Trim(),
                     apellido = apellido.Trim(),
-                    contraseña = Classes.Encrypt.GetSHA256(contraseña.Trim()),
+                    contrasena = Classes.Encrypt.GetSHA256(contraseña.Trim()),
                     correo = email.Trim(),
                     dni = dniParsed,
                     instagram = instagram.Trim(),

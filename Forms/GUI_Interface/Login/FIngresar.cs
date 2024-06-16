@@ -48,7 +48,7 @@ namespace Proyecto_Taller_AdminShop
             {
                 var lst = from d in db.Usuario
                           where d.correo == correo.Text
-                          && d.contraseña == sPass
+                          && d.contrasena == sPass
                           select d;
 
                 if (lst.Any())

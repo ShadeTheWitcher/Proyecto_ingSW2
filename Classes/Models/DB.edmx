@@ -55,7 +55,7 @@
           <Property Name="tipo_usuario" Type="int" Nullable="false" />
           <Property Name="dni" Type="bigint" Nullable="false" />
           <Property Name="correo" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="contraseña" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="contrasena" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="apellido" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="telefono" Type="bigint" Nullable="false" />
@@ -279,7 +279,7 @@
           <Property Name="tipo_usuario" Type="Int32" Nullable="false" />
           <Property Name="dni" Type="Int64" Nullable="false" />
           <Property Name="correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="contraseña" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="contrasena" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="telefono" Type="Int64" Nullable="false" />
@@ -508,7 +508,7 @@
                 <ScalarProperty Name="tipo_usuario" ColumnName="tipo_usuario" />
                 <ScalarProperty Name="dni" ColumnName="dni" />
                 <ScalarProperty Name="correo" ColumnName="correo" />
-                <ScalarProperty Name="contraseña" ColumnName="contraseña" />
+                <ScalarProperty Name="contrasena" ColumnName="contrasena" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
                 <ScalarProperty Name="apellido" ColumnName="apellido" />
                 <ScalarProperty Name="telefono" ColumnName="telefono" />

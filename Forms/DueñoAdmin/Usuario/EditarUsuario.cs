@@ -29,7 +29,7 @@ namespace Proyecto_Taller_AdminShop
             Usuario user = Classes.UserController.OneUser(this.idUsuario);
             if (user != null)
             {
-                pass = user.contraseña;
+                pass = user.contrasena;
                 TBNombre.Text = user.nombre;
                 TBApellido.Text = user.apellido;
                 TBEmail.Text = user.correo;

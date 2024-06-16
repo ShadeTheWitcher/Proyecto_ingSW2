@@ -41,7 +41,7 @@ namespace Proyecto_Taller_AdminShop
                 var user = db.Usuario.FirstOrDefault(u => u.correo == userEmail); // Asumiendo que tienes una manera de obtener el correo del usuario actual
 
                 // Comprobar que la contraseña actual es la correcta
-                if (user != null && user.contraseña == hashedCurrentPasswordInput)
+                if (user != null && user.contrasena == hashedCurrentPasswordInput)
                 {
                     // Verificar que las nuevas contraseñas coinciden
                     if (newPassword == confirmNewPassword)
@@ -50,7 +50,7 @@ namespace Proyecto_Taller_AdminShop
                         string hashedNewPassword = Classes.Encrypt.GetSHA256(newPassword);
 
                         // Actualizar la contraseña en la base de datos
-                        user.contraseña = hashedNewPassword;
+                        user.contrasena = hashedNewPassword;
                         db.SaveChanges(); // Guardar los cambios en la base de datos
 
                         MessageBox.Show("Contraseña actualizada con éxito", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
