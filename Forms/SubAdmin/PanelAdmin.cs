@@ -24,7 +24,7 @@ namespace Proyecto_Taller_AdminShop
         private void Prueba_Load(object sender, EventArgs e)
         {
 
-            LoadVentasView();
+            LoadProductosView();
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
@@ -43,6 +43,7 @@ namespace Proyecto_Taller_AdminShop
             panel3.Width = this.ClientSize.Width;
         }
 
+        //Botón Clientes
         private void button1_Click(object sender, EventArgs e)
         {
             panel3.Controls.Clear();
@@ -59,25 +60,28 @@ namespace Proyecto_Taller_AdminShop
             }
         }
 
+        //Botón Ventas
         private void RU_Click(object sender, EventArgs e)
         {
             panel3.Controls.Clear();
-            LoadVentasView();
-        }
-
-        private void LoadVentasView()
-        {
             VentasView ventasView = new VentasView();
             panel3.Controls.Add(ventasView);
         }
 
-        private void IB_Click(object sender, EventArgs e)
+        private void LoadProductosView()
         {
             panel3.Controls.Clear();
             ProductosView productosView = new ProductosView();
             panel3.Controls.Add(productosView);
         }
 
+        //Botón Productos
+        private void IB_Click(object sender, EventArgs e)
+        {
+            LoadProductosView();
+        }
+
+        //Botón Productos Sin Stock
         private void button2_Click(object sender, EventArgs e)
         {
             panel3.Controls.Clear();

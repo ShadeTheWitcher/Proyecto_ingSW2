@@ -31,14 +31,32 @@ namespace Proyecto_Taller_AdminShop
 
         }
 
-        private void InitializeDataGrid(List<Producto> productosList=null)
-        {   
-           
-        }
+        private void InitializeDataGrid(List<Producto> productosList = null)
+        {
+            if (productosList == null)
+            {
+                productosList = ProductoController.lowStockProducts();
+            }
 
+            DG_ProductsStock.Rows.Clear();
+            foreach (Producto Product in productosList)
+            {
+                int row = DG_ProductsStock.Rows.Add(Product.id_producto, Product.descripcion, Product.Categoria.descripcion, "$ " + Product.precio_venta, "$ " + Product.precio_costo, Product.stock);
+                if (Product.stock == 0)
+                {
+                    DG_ProductsStock.Rows[row].DefaultCellStyle.BackColor = ColorTranslator.FromHtml("#D60303");
+                }
+            }
+        }
         private void BReporte_Click(object sender, EventArgs e)
         {
-           
+            List<Producto> date = ProductoController.lowStockProducts();
+            DialogResult respuesta = MessageBox.Show("¿Quiere un PFD?", "Confirmación PDF", MessageBoxButtons.YesNo);
+            if (respuesta == DialogResult.Yes)
+            {
+                InformeProductosUnstock.InfProductosUnstock(date);
+            }
+            this.InitializeDataGrid(date);
         }
     }
 }

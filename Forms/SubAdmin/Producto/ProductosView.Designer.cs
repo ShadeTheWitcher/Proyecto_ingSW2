@@ -45,7 +45,8 @@
             this.productoNombreBuscador = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.SinStock = new System.Windows.Forms.Button();
+            this.BConStock = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.DG_Products)).BeginInit();
             this.SuspendLayout();
             // 
@@ -246,27 +247,42 @@
             this.comboBox1.TabIndex = 31;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
-            // button1
+            // SinStock
             // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(57)))), ((int)(((byte)(70)))));
-            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(755, 94);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(180, 31);
-            this.button1.TabIndex = 35;
-            this.button1.Text = "Sin stock";
-            this.button1.UseVisualStyleBackColor = false;
-            
+            this.SinStock.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(57)))), ((int)(((byte)(70)))));
+            this.SinStock.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.SinStock.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.SinStock.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SinStock.ForeColor = System.Drawing.Color.White;
+            this.SinStock.Location = new System.Drawing.Point(755, 94);
+            this.SinStock.Name = "SinStock";
+            this.SinStock.Size = new System.Drawing.Size(180, 31);
+            this.SinStock.TabIndex = 35;
+            this.SinStock.Text = "Sin Stock";
+            this.SinStock.UseVisualStyleBackColor = false;
+            this.SinStock.Click += new System.EventHandler(this.SinStock_Click_1);
+            // 
+            // BConStock
+            // 
+            this.BConStock.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(149)))), ((int)(((byte)(108)))));
+            this.BConStock.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BConStock.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BConStock.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.BConStock.Location = new System.Drawing.Point(564, 94);
+            this.BConStock.Name = "BConStock";
+            this.BConStock.Size = new System.Drawing.Size(180, 31);
+            this.BConStock.TabIndex = 36;
+            this.BConStock.Text = "Con Stock";
+            this.BConStock.UseVisualStyleBackColor = false;
+            this.BConStock.Click += new System.EventHandler(this.BConStock_Click);
             // 
             // ProductosView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(242)))), ((int)(((byte)(244)))));
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.BConStock);
+            this.Controls.Add(this.SinStock);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.productoNombreBuscador);
             this.Controls.Add(this.label5);
@@ -301,6 +317,7 @@
         private System.Windows.Forms.TextBox productoNombreBuscador;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button SinStock;
+        private System.Windows.Forms.Button BConStock;
     }
 }
