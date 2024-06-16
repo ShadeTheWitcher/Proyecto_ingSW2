@@ -142,27 +142,26 @@ namespace Proyecto_Taller_AdminShop.Classes
 
         public static Producto getOneProduct(int id)
         {
-
-        var producto = (from p in db.Producto
+            var producto = (from p in db.Producto
                             join c in db.Categoria on p.id_categoria equals c.id_categoria
-                            where p.id_producto == id // condición para obtener el producto específico
+                            where p.id_producto == id
                             select new
                             {
                                 Producto = p,
-                                CategoriaDescripcion = c.descripcion // Suponiendo que 'descripcion' es el campo de la descripción en la tabla Categoria
-                            }).FirstOrDefault(); // Selecciona el primer resultado o devuelve null si no hay resultados
+                                CategoriaDescripcion = c.descripcion
+                            }).FirstOrDefault();
 
-            if (producto != null) 
+            if (producto != null)
             {
-                producto.Producto.Categoria.descripcion = producto.CategoriaDescripcion; // Asegúrate de tener un campo o propiedad 'DescripcionCategoria' en tu clase 'Producto'
-
-                return producto.Producto; 
+                producto.Producto.Categoria.descripcion = producto.CategoriaDescripcion;
+                return producto.Producto;
             }
             else
             {
-                return null; 
+                return null;
             }
         }
+
 
 
 

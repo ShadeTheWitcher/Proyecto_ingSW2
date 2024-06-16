@@ -75,19 +75,31 @@ namespace Proyecto_Taller_AdminShop.Vendedor
         {
             int id_venta = 0;
 
-            int selectedRowIndex = DG_Ventas_Vendedor.SelectedRows[0].Index;
-            id_venta = Convert.ToInt32(DG_Ventas_Vendedor.Rows[selectedRowIndex].Cells[0].Value);
-            var idCliente = SaleController.oneVenta(id_venta).id_cliente;
-
-            if (idCliente == null)
+            // Verificar si hay filas seleccionadas
+            if (DG_Ventas_Vendedor.SelectedRows.Count > 0)
             {
-                InformeClientes.FacturaCliente(id_venta);
+                // Acceder a la primera fila seleccionada
+                int selectedRowIndex = DG_Ventas_Vendedor.SelectedRows[0].Index;
+
+                // Obtener el valor del ID de la venta
+                id_venta = Convert.ToInt32(DG_Ventas_Vendedor.Rows[selectedRowIndex].Cells[0].Value);
+                var idCliente = SaleController.oneVenta(id_venta).id_cliente;
+
+                if (idCliente == null)
+                {
+                    InformeClientes.FacturaCliente(id_venta);
+                }
+                else
+                {
+                    InformeClientes.FacturaCliente(id_venta, idCliente);
+                }
             }
             else
             {
-                InformeClientes.FacturaCliente(id_venta, idCliente);
+                MessageBox.Show("No hay elementos en la factura", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private void DTimer_ValueChanged(object sender, EventArgs e)
         {
