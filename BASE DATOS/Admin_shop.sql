@@ -1,6 +1,28 @@
 CREATE DATABASE Admin_shop
+GO
 
 USE Admin_shop
+GO
+
+
+-- Borrar procedimiento
+IF EXISTS (SELECT * FROM sys.procedures WHERE name = 'InsertarProductoDB')
+BEGIN
+    DROP PROCEDURE InsertarProductoDB;
+END;
+GO
+
+-- Borrar tablas si existen
+IF OBJECT_ID('Venta_detalle', 'U') IS NOT NULL DROP TABLE Venta_detalle;
+IF OBJECT_ID('Producto', 'U') IS NOT NULL DROP TABLE Producto;
+IF OBJECT_ID('Venta', 'U') IS NOT NULL DROP TABLE Venta;
+IF OBJECT_ID('Cliente', 'U') IS NOT NULL DROP TABLE Cliente;
+IF OBJECT_ID('Categoria', 'U') IS NOT NULL DROP TABLE Categoria;
+IF OBJECT_ID('Usuario', 'U') IS NOT NULL DROP TABLE Usuario;
+GO
+
+
+
 
 CREATE TABLE Usuario
 (
@@ -8,7 +30,7 @@ CREATE TABLE Usuario
   tipo_usuario INT NOT NULL,
   dni BIGINT NOT NULL,
   correo VARCHAR(50) NOT NULL,
-  contrase�a VARCHAR(100) NOT NULL,
+  contrasena VARCHAR(100) NOT NULL,
   nombre VARCHAR(50) NOT NULL,
   apellido VARCHAR(50) NOT NULL,
   telefono BIGINT NOT NULL,
@@ -22,6 +44,7 @@ CREATE TABLE Usuario
   CONSTRAINT state_user CHECK (estado IN (0,1)),
   CONSTRAINT type_user CHECK(tipo_usuario IN(1,2,3)),
 );
+GO
 
 CREATE TABLE Cliente
 (
@@ -43,6 +66,7 @@ CREATE TABLE Cliente
   CONSTRAINT client_correo UNIQUE (correo),
   CONSTRAINT client_dni UNIQUE (dni)
 );
+GO
 
 CREATE TABLE Categoria
 (
@@ -54,6 +78,7 @@ CREATE TABLE Categoria
   CONSTRAINT state_category CHECK (estado IN (0,1)),
   CONSTRAINT id_category PRIMARY KEY (id_categoria)
 );
+GO
 
 CREATE TABLE Venta
 (
@@ -70,12 +95,12 @@ CREATE TABLE Venta
   CONSTRAINT FK_Venta_Cliente FOREIGN KEY (id_cliente) REFERENCES Cliente(id_cliente),
   CONSTRAINT state_sale CHECK (estado IN (0,1))
 );
-
+GO
 
 -- SOLUCION ERROR: error al replicar base decimal no coincide con double
 ALTER TABLE Venta
 ALTER COLUMN total FLOAT NOT NULL;
-
+GO
 
 CREATE TABLE Producto
 (
@@ -97,6 +122,7 @@ CREATE TABLE Producto
   CONSTRAINT pvPositivo CHECK (precio_venta >= 0),
   CONSTRAINT stock CHECK(stock >= 0),
 );
+GO
 
 CREATE TABLE Venta_detalle
 (
@@ -114,6 +140,7 @@ CREATE TABLE Venta_detalle
   CONSTRAINT state_detailSale CHECK (estado IN (0,1)),
   CONSTRAINT cantidad_posit CHECK(cantidad > 0)
 );
+GO
 
 -- procedimientos almacenados
 
@@ -135,32 +162,40 @@ BEGIN
     -- Mostrar mensaje de éxito
     PRINT 'Producto insertado correctamente.';
 END;
-
+GO
 
 
 
 --Super usuario --contraseña 123
 INSERT INTO Usuario (tipo_usuario, dni, correo, contraseña, nombre, apellido, telefono, instagram, estado) 
 VALUES (1, 123456789, 'admin', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 'Juan', 'Perez', 1234567890, 'juanperez_insta', '1');
+GO
 
 -- categorias
 INSERT INTO Categoria (id_categoria, descripcion, modify_date, estado) 
 VALUES ('1','Golosinas', NULL, '1');
+GO
 
 INSERT INTO Categoria (id_categoria, descripcion, modify_date, estado) 
 VALUES ('2','Bebidas', NULL, '1');
+GO
 
 INSERT INTO Categoria (id_categoria, descripcion, modify_date, estado) 
 VALUES ('3','Snacks', NULL, '1');
+GO
 
 INSERT INTO Categoria (id_categoria, descripcion, modify_date, estado) 
 VALUES ('4','Cigarrillos', NULL, '1');
+GO
 
 INSERT INTO Categoria (id_categoria, descripcion, modify_date, estado) 
 VALUES ('5','Helados y Postres', NULL, '1');
+GO
 
 INSERT INTO Categoria (id_categoria, descripcion, modify_date, estado) 
 VALUES ('6','Panadería', NULL, '1');
+GO
 
 INSERT INTO Categoria (id_categoria, descripcion, modify_date, estado) 
 VALUES ('7','Primera Necesidad', NULL, '1');
+GO
