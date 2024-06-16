@@ -102,24 +102,41 @@ namespace Proyecto_Taller_AdminShop
 
         }
 
+        //Realiza búsqueda de un producto
         private void button3_Click(object sender, EventArgs e)
         {
             string textoBusqueda = productoNombreBuscador.Text;
 
+            // Si hay texto, llama a la función obtenerProductosPorNombre con el texto del TextBox como parámetro.
+            var productos = ProductoController.obtenerProductosPorNombre(textoBusqueda);
+
+            // Verifica si el TextBox está vacío
             if (string.IsNullOrWhiteSpace(textoBusqueda))
             {
+                // Si está vacío, muestra un mensaje de error y sale del método.
                 MessageBox.Show("Por favor, ingrese un nombre de producto para buscar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
-            var productos = ProductoController.obtenerProductosPorNombre(textoBusqueda);
-
-            DG_Products.Rows.Clear();
-
-            foreach (var Product in productos)
+            //Si existe el producto ejecuta esto sino lo otro
+            else if (productos != null && productos.Any())
             {
-                DG_Products.Rows.Add(Product.id_producto, Product.descripcion, Product.Categoria.descripcion, "$ " + Product.precio_venta, "$ " + Product.precio_costo, Product.stock);
+                // Limpia las filas existentes antes de agregar nuevas
+                DG_Products.Rows.Clear();
+
+                // Agrega los productos recuperados al DataGridView
+                foreach (var Product in productos)
+                {
+                    DG_Products.Rows.Add(Product.id_producto, Product.descripcion, Product.Categoria.descripcion, "$ " + Product.precio_venta, "$ " + Product.precio_costo, Product.stock);
+                }
             }
+            else
+            {
+                MessageBox.Show("No existe el producto buscado. Por favor reintentelo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                productoNombreBuscador.Text = "";
+            }
+
+
+            
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -157,6 +174,32 @@ namespace Proyecto_Taller_AdminShop
             AgregarProductoForm agregarProductoForm = new AgregarProductoForm();
             agregarProductoForm.Show();
             agregarProductoForm.FormClosed += (s, args) => this.initDataGrid();
+        }
+
+        //Trae los productos que se encuentran sin stock
+        private void SinStock_Click_1(object sender, EventArgs e)
+        {
+            var productos = ProductoController.outOfStockProducts(); 
+            if (productos.Count() > 0) { 
+                DG_Products.Rows.Clear(); 
+                foreach (Producto Product in productos) { 
+                    DG_Products.Rows.Add(Product.id_producto, Product.descripcion, Product.Categoria.descripcion, "$ " + Product.precio_venta, "$ " + Product.precio_costo, Product.stock); 
+                } 
+            } else { 
+                MessageBox.Show("No hay productos sin stock.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning); 
+            }
+        }
+
+        private void BConStock_Click(object sender, EventArgs e)
+        {
+            var productos = ProductoController.ProductsAll();
+
+            DG_Products.Rows.Clear();
+
+            foreach (Producto Product in productos)
+            {
+                DG_Products.Rows.Add(Product.id_producto, Product.descripcion, Product.Categoria.descripcion, "$ " + Product.precio_venta, "$ " + Product.precio_costo, Product.stock);
+            }
         }
     }
 }

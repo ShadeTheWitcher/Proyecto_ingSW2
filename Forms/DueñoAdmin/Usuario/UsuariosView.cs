@@ -51,20 +51,30 @@ namespace Proyecto_Taller_AdminShop
             if (result == DialogResult.Yes)
             {
                 UserController.deleteUser(id);
-                MessageBox.Show("Usuario Eliminado Correctamente!");
+                MessageBox.Show("Usuario Eliminado Correctamente!", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.InitializeDataGridView();
             }
         }
 
+        //Edita los empleados
         private void button1_Click_1(object sender, EventArgs e)
         {
-            DataGridViewRow SRow = DG_Users.SelectedRows[0];
-            string delete_user = SRow.Cells["id"].Value.ToString();
-            int id = int.Parse(delete_user);
+            //Si hay empleados registrados ocurre esto sino lo otro
+            if (DG_Users.SelectedRows.Count > 0)
+            {
+                DataGridViewRow SRow = DG_Users.SelectedRows[0];
+                string delete_user = SRow.Cells["id"].Value.ToString();
+                int id = int.Parse(delete_user);
 
-            EditarUsuario editarUsuario = new EditarUsuario(id);
-            editarUsuario.FormClosed += (s, args) => this.InitializeDataGridView();
-            editarUsuario.Show();
+                EditarUsuario editarUsuario = new EditarUsuario(id);
+                editarUsuario.FormClosed += (s, args) => this.InitializeDataGridView();
+                editarUsuario.Show();
+            }
+            else
+            {
+                MessageBox.Show("No hay empleados registrados.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
         }
 
         private void button2_Click(object sender, EventArgs e)

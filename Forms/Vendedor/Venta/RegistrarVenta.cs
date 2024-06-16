@@ -143,10 +143,14 @@ namespace Proyecto_Taller_AdminShop.Vendedor
             }
         }
 
+        //Realiza la busqueda de un producto
         private void button3_Click(object sender, EventArgs e)
         {
             // Obtén el texto del TextBox
             string textoBusqueda = productoNombreBuscador.Text;
+
+            // Si hay texto, llama a la función obtenerProductosPorNombre con el texto del TextBox como parámetro.
+            var productos = ProductoController.obtenerProductosPorNombre(textoBusqueda);
 
             // Verifica si el TextBox está vacío
             if (string.IsNullOrWhiteSpace(textoBusqueda))
@@ -155,18 +159,24 @@ namespace Proyecto_Taller_AdminShop.Vendedor
                 MessageBox.Show("Por favor, ingrese un nombre de producto para buscar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
-            // Si hay texto, llama a la función GetProductsByPartialName con el texto del TextBox como parámetro.
-            var productos = ProductoController.obtenerProductosPorNombre(textoBusqueda);
-
-            // Limpia las filas existentes antes de agregar nuevas
-            DG_products_list.Rows.Clear();
-
-            // Agrega los productos recuperados al DataGridView
-            foreach (var producto in productos)
+            //Si existe el producto ejecuta esto sino lo otro
+            else if (productos != null && productos.Any())
             {
-                DG_products_list.Rows.Add(producto.id_producto, producto.descripcion, producto.Categoria.descripcion, "$ " + producto.precio_venta, producto.stock);
+                // Limpia las filas existentes antes de agregar nuevas
+                DG_products_list.Rows.Clear();
+
+                // Agrega los productos recuperados al DataGridView
+                foreach (var producto in productos)
+                {
+                    DG_products_list.Rows.Add(producto.id_producto, producto.descripcion, producto.Categoria.descripcion, "$ " + producto.precio_venta, producto.stock);
+                }
             }
+            else
+            {
+                MessageBox.Show("No existe el producto buscado. Por favor reintentelo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                productoNombreBuscador.Text = "";
+            }
+
         }
 
         private void cantidadInput_ValueChanged(object sender, EventArgs e)

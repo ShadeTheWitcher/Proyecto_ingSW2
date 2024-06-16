@@ -125,48 +125,7 @@ namespace Proyecto_Taller_AdminShop
                 }
         }
             
-        
-
-        //private bool ValidarCamposProducto()
-        //{
-        //    if (!ValidationProducts.IsCategorySelected(comboBox1))
-        //    {
-        //        MessageBox.Show("Por favor, seleccione una categoría.");
-        //        return false;
-        //    }
-
-        //    if (!ValidationProducts.IsDescriptionValid(TextDescription.Text))
-        //    {
-        //        MessageBox.Show("La descripción no puede estar vacía.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //        return false;
-        //    }
-
-        //    if (!decimal.TryParse(PrecioCosto.Text, out decimal priceCost) || !ValidationProducts.IsPriceValid(priceCost))
-        //    {
-        //        MessageBox.Show("Ingrese un precio de costo válido (mayor a 0).", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //        return false;
-        //    }
-
-        //    if (!decimal.TryParse(PrecioVenta.Text, out decimal priceSale) || !ValidationProducts.IsPriceValid(priceSale))
-        //    {
-        //        MessageBox.Show("Ingrese un precio de venta válido (mayor a 0).", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //        return false;
-        //    }
-
-        //    if (!int.TryParse(Stock.Text, out int stock) || !ValidationProducts.IsStockValid(stock))
-        //    {
-        //        MessageBox.Show("El stock no puede ser negativo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //        return false;
-        //    }
-
-        //    return true;
-        //}
-
-
-
-
-
-
+   
         private void AgregarProductoForm_Load(object sender, EventArgs e)
         {
 
