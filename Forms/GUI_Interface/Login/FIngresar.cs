@@ -82,9 +82,13 @@ namespace Proyecto_Taller_AdminShop
                     AppState.userName = userFound.nombre;
                     AppState.userDni = userFound.dni;
                 }
+                else if (string.IsNullOrWhiteSpace(correo.Text) && string.IsNullOrWhiteSpace(inputPassword.Text))
+                {
+                    MessageBox.Show("Ingrese Correo y Contraseña para ingresar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
                 else
                 {
-                    MessageBox.Show("Usuario no existe o contraseña equivocada!!", "Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Correo no existe o contraseña equivocada!!", "Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
