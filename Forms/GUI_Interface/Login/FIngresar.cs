@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Proyecto_Taller_AdminShop
 {
@@ -16,6 +17,28 @@ namespace Proyecto_Taller_AdminShop
         public FIngresar()
         {
             InitializeComponent();
+            this.KeyPreview = true;
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == Keys.Tab)
+            {
+                if (correo.Focused)
+                {
+                    // Mover el foco a textBox2
+                    inputPassword.Focus();
+                    return true; // Indicar que hemos manejado la tecla Tab
+                }
+                else if (inputPassword.Focused)
+                {
+                    // Mover el foco a textBox1
+                    correo.Focus();
+                    return true; // Indicar que hemos manejado la tecla Tab
+                }
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
         }
 
         private void BIngresar_Click(object sender, EventArgs e)
@@ -65,6 +88,6 @@ namespace Proyecto_Taller_AdminShop
                 }
             }
         }
-
+ 
     }
 }
