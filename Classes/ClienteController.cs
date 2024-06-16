@@ -61,7 +61,6 @@ namespace Proyecto_Taller_AdminShop.Classes
             Admin_shopEntities dbUpdate = new Admin_shopEntities();
             var detailVenta = (from d in dbUpdate.Venta_detalle
                                                       where d.id_venta == id_venta
-                                                      where d.estado =="1"
                                                       select d);
 
             return detailVenta.ToList();
