@@ -63,13 +63,7 @@ namespace Proyecto_Taller_AdminShop.Classes
             return venta;
         }
 
-        public static void controlStock(int id_product, int cant)
-        {
-            Producto product = db.Producto.Where(d => d.id_producto == id_product).First();
-            product.stock -= cant;
-            db.Entry(product).State = System.Data.Entity.EntityState.Modified;
-            db.SaveChanges();
-        }
+
 
         public static List<CategoriaConCantidadVendida> CategoriasConCantidadVendida(DateTime f_desde, DateTime f_hasta)
         {
@@ -170,6 +164,7 @@ namespace Proyecto_Taller_AdminShop.Classes
 
         public void RegistrarVenta(DataGridView saleList, DataGridView productsList, Label totalLabel, Label clienteLabel, int idCliente)
         {
+            
             if (saleList.Rows.Count == 0)
             {
                 MessageBox.Show("Por favor, agregue productos antes de registrar la venta.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -198,7 +193,7 @@ namespace Proyecto_Taller_AdminShop.Classes
                     subtotal = float.Parse(row.Cells["Precio"].Value.ToString().Replace("$ ", ""))
                 };
 
-                controlStock(Convert.ToInt32(row.Cells["IdProducto"].Value), Convert.ToInt32(row.Cells["Cantidad"].Value));
+                ProductoController.controlStock(Convert.ToInt32(row.Cells["IdProducto"].Value), Convert.ToInt32(row.Cells["Cantidad"].Value));
                 db.Venta_detalle.Add(detalle);
             }
             db.SaveChanges();

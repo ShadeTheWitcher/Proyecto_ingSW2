@@ -283,7 +283,13 @@ namespace Proyecto_Taller_AdminShop.Classes
         }
 
 
-
+        public static void controlStock(int id_product, int cant)
+        {
+            Producto product = db.Producto.Where(d => d.id_producto == id_product).First();
+            product.stock -= cant;
+            db.Entry(product).State = System.Data.Entity.EntityState.Modified;
+            db.SaveChanges();
+        }
 
 
 
