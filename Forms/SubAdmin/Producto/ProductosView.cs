@@ -89,11 +89,19 @@ namespace Proyecto_Taller_AdminShop
             {
                 int selectedRowIndex = DG_Products.SelectedRows[0].Index;
                 int idProducto = Convert.ToInt32(DG_Products.Rows[selectedRowIndex].Cells[0].Value);
-                ProductoController.deleteProduct(idProducto);
-                this.initDataGrid();
-            } else
+
+                // Preguntar al usuario si realmente desea eliminar el producto
+                DialogResult result = MessageBox.Show("¿Está seguro de que desea eliminar este producto?", "Confirmar eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    ProductoController.deleteProduct(idProducto);
+                    this.initDataGrid();
+                }
+            }
+            else
             {
-                MessageBox.Show("Por favor, seleccione un producto para editar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Por favor, seleccione un producto para eliminar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
