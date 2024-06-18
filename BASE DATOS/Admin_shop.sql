@@ -167,7 +167,7 @@ GO
 
 
 --Super usuario --contraseña 123
-INSERT INTO Usuario (tipo_usuario, dni, correo, contraseña, nombre, apellido, telefono, instagram, estado) 
+INSERT INTO Usuario (tipo_usuario, dni, correo, contrasena, nombre, apellido, telefono, instagram, estado) 
 VALUES (1, 123456789, 'admin', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 'Juan', 'Perez', 1234567890, 'juanperez_insta', '1');
 GO
 
