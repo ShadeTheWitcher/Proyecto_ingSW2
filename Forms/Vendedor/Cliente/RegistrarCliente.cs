@@ -1,7 +1,7 @@
 ﻿using Proyecto_Taller_AdminShop.Classes;
 using Proyecto_Taller_AdminShop.Classes.Informes;
 using Proyecto_Taller_AdminShop.Classes.Models;
-using Proyecto_Taller_AdminShop.Validations;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -35,12 +35,12 @@ namespace Proyecto_Taller_AdminShop.Vendedor
             string dni = RCTDni.Text;
 
             // Validar los campos utilizando los métodos de validación
-            bool nombreValido = ValidationClientes.IsNombreValid(nombre);
-            bool apellidoValido = ValidationClientes.IsApellidoValid(apellido);
-            bool correoValido = ValidationClientes.IsCorreoValid(correo);
-            bool telefonoValido = ValidationClientes.IsTelefonoValid(telefono);
-            bool instagramValido = ValidationClientes.IsInstagramValid(instagram);
-            bool domicilioValido = ValidationClientes.IsNombreValid(domicilio);
+            bool nombreValido = ClienteController.IsNombreValid(nombre);
+            bool apellidoValido = ClienteController.IsApellidoValid(apellido);
+            bool correoValido = ClienteController.IsCorreoValid(correo);
+            bool telefonoValido = ClienteController.IsTelefonoValid(telefono);
+            bool instagramValido = ClienteController.IsInstagramValid(instagram);
+            bool domicilioValido = ClienteController.IsNombreValid(domicilio);
             
 
             if (!domicilioValido)
@@ -92,7 +92,7 @@ namespace Proyecto_Taller_AdminShop.Vendedor
                 long dniParsed;
                 if (!long.TryParse(dni, out dniParsed))
                 {
-                    MessageBox.Show("Por favor, ingrese un DNI válido mogolico.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Por favor, ingrese un DNI válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return; // Detener el proceso
                 }
 

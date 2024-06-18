@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Proyecto_Taller_AdminShop.Validations;
+
 
 namespace Proyecto_Taller_AdminShop
 {
@@ -42,12 +42,12 @@ namespace Proyecto_Taller_AdminShop
             string dni = RCTDni.Text;
 
             // Validar los campos utilizando los métodos de validación
-            bool nombreValido = ValidationClientes.IsNombreValid(nombre);
-            bool apellidoValido = ValidationClientes.IsApellidoValid(apellido);
-            bool correoValido = ValidationClientes.IsCorreoValid(correo);
-            bool telefonoValido = ValidationClientes.IsTelefonoValid(telefono);
-            bool instagramValido = ValidationClientes.IsInstagramValid(instagram);
-            bool domicilioValido = ValidationClientes.IsNombreValid(domicilio);
+            bool nombreValido = ClienteController.IsNombreValid(nombre);
+            bool apellidoValido = ClienteController.IsApellidoValid(apellido);
+            bool correoValido = ClienteController.IsCorreoValid(correo);
+            bool telefonoValido = ClienteController.IsTelefonoValid(telefono);
+            bool instagramValido = ClienteController.IsInstagramValid(instagram);
+            bool domicilioValido = ClienteController.IsNombreValid(domicilio);
 
             if (!domicilioValido)
             {

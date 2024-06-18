@@ -285,7 +285,6 @@
     <Compile Include="Forms\DueñoAdmin\Usuario\UsuariosView.Designer.cs">
       <DependentUpon>UsuariosView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Validations\ValidationClientes.cs" />
     <Compile Include="Forms\Vendedor\Cliente\BuscadorClientes.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -462,6 +461,9 @@
       <DependentUpon>db.edmx</DependentUpon>
       <LastGenOutput>db.cs</LastGenOutput>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Validations\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
