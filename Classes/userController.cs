@@ -44,21 +44,7 @@ namespace Proyecto_Taller_AdminShop.Classes
             db.SaveChanges();
         }
 
-        public static void editUser(int id, string name, string lastname,string mail, long tf, long dni, string ig, int rol)
-        {
-            Usuario user_edit = db.Usuario.Where(d=> d.id_usuario == id).First();
 
-            user_edit.nombre = name;
-            user_edit.apellido = lastname;
-            user_edit.correo = mail;
-            user_edit.telefono = tf;
-            user_edit.instagram = ig;
-            user_edit.dni = dni;
-            user_edit.tipo_usuario = rol;
-
-            db.Entry(user_edit).State = System.Data.Entity.EntityState.Modified;
-            db.SaveChanges();
-        }
 
         public static List<MejoresVendedores> mejoresVendedores(DateTime f_desde, DateTime f_hasta)
         {

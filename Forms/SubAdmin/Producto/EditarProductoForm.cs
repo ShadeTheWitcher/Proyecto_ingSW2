@@ -59,35 +59,37 @@ namespace Proyecto_Taller_AdminShop
 
         private void APButton_Click(object sender, EventArgs e)
         {
-            if (!ValidationProducts.IsCategorySelected(comboBox1))
+            var productoController = new ProductoController();
+
+            if (!productoController.IsCategorySelected(comboBox1))
             {
                 MessageBox.Show("Por favor, seleccione una categoría.");
                 return;
             }
 
 
-            if (!ValidationProducts.IsDescriptionValid(TextDescription.Text))
+            if (!productoController.IsDescriptionValid(TextDescription.Text))
             {
                 MessageBox.Show("La descripción no puede estar vacía.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             decimal priceCost;
-            if (!decimal.TryParse(PrecioCosto.Text, out priceCost) || !ValidationProducts.IsPriceValid(priceCost))
+            if (!decimal.TryParse(PrecioCosto.Text, out priceCost) || !productoController.IsPriceValid(priceCost))
             {
                 MessageBox.Show("Ingrese un precio de costo válido (mayor a 0).", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             decimal priceSale;
-            if (!decimal.TryParse(PrecioVenta.Text, out priceSale) || !ValidationProducts.IsPriceValid(priceSale))
+            if (!decimal.TryParse(PrecioVenta.Text, out priceSale) || !productoController.IsPriceValid(priceSale))
             {
                 MessageBox.Show("Ingrese un precio de venta válido (mayor a 0).", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             int stock;
-            if (!int.TryParse(Stock.Text, out stock) || !ValidationProducts.IsStockValid(stock))
+            if (!int.TryParse(Stock.Text, out stock) || !productoController.IsStockValid(stock))
             {
                 MessageBox.Show("El stock no puede ser negativo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
