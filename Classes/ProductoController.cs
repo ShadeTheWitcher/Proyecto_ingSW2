@@ -3,7 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Proyecto_Taller_AdminShop.Classes
 {
@@ -105,11 +107,19 @@ namespace Proyecto_Taller_AdminShop.Classes
 
             try
             {
-                // Aquí podrías llamar a tu método para insertar el producto en la base de datos
-                // Utilizo los valores ya convertidos a float según la lógica de ValidarCamposProducto
-                InsertarProducto(descripcion, producto.precio_costo, producto.precio_venta, producto.stock, producto.id_categoria, 1);
+                if (!(producto.descripcion == db.Producto.FirstOrDefault().descripcion)) {
+                    // Aquí podrías llamar a tu método para insertar el producto en la base de datos
+                    // Utilizo los valores ya convertidos a float según la lógica de ValidarCamposProducto
+                    InsertarProducto(descripcion, producto.precio_costo, producto.precio_venta, producto.stock, producto.id_categoria, 1);
 
-                return true; // Indicación de que el registro fue exitoso
+                    return true; // Indicación de que el registro fue exitoso
+                }
+                else
+                {
+                    MessageBox.Show("Error al añadir producto: producto existente ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+                
             }
             catch (Exception ex)
             {
@@ -230,6 +240,12 @@ namespace Proyecto_Taller_AdminShop.Classes
             producto = null;
             errorMessage = string.Empty;
 
+            if (string.IsNullOrEmpty(descripcion) && string.IsNullOrEmpty(precioCostoStr) && string.IsNullOrEmpty(precioVentaStr) && string.IsNullOrEmpty(stockStr))
+            {
+                errorMessage = "Por favor, rellene los campos.";
+                return false;
+            }
+
             if (!IsCategorySelected(selectedItem))
             {
                 errorMessage = "Por favor, seleccione una categoría.";
@@ -254,11 +270,26 @@ namespace Proyecto_Taller_AdminShop.Classes
                 return false;
             }
 
-            if (!int.TryParse(stockStr, out int stock) || !IsStockValid(stock))
+            
+            int stock;
+
+            if (string.IsNullOrEmpty(stockStr))
+            {
+                errorMessage = "Ingrese un Stock.";
+                return false;
+            }
+            else if (!int.TryParse(stockStr, out stock))
+            {
+                errorMessage = "El texto ingresado no contiene números válidos. Por favor, ingrese sólo números positivos no decimales."; ; 
+                return false;
+            }
+            else if(!IsStockValid(stock))
             {
                 errorMessage = "El stock no puede ser negativo.";
                 return false;
             }
+            
+
 
             if (selectedItem is ComboBoxItem comboBoxItem)
             {
@@ -290,6 +321,8 @@ namespace Proyecto_Taller_AdminShop.Classes
             db.Entry(product).State = System.Data.Entity.EntityState.Modified;
             db.SaveChanges();
         }
+        
+
 
 
 
