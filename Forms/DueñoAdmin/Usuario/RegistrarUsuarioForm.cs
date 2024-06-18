@@ -34,7 +34,7 @@ namespace Proyecto_Taller_AdminShop
 
         private void TBNombre_TextChanged(object sender, EventArgs e)
         {
-            if (ValidationUser.ValidationLengh(TBNombre.Text, 3, 50))
+            if (UserController.ValidationLengh(TBNombre.Text, 3, 50))
             {
                 TBNombre.ForeColor = System.Drawing.Color.Black;
             }
@@ -62,7 +62,7 @@ namespace Proyecto_Taller_AdminShop
 
         private void TBEmail_TextChanged(object sender, EventArgs e)
         {
-            if (ValidationUser.ValidationEmail(TBEmail.Text))
+            if (UserController.ValidationEmail(TBEmail.Text))
             {
                 // El correo es válido, no hagas nada
                 TBEmail.ForeColor = System.Drawing.Color.Black; // Restaurar el color del texto
@@ -92,7 +92,7 @@ namespace Proyecto_Taller_AdminShop
 
         private void TBApellido_TextChanged(object sender, EventArgs e)
         {
-            if (ValidationUser.ValidationLengh(TBApellido.Text, 3, 50))
+            if (UserController.ValidationLengh(TBApellido.Text, 3, 50))
             {
                 TBApellido.ForeColor = System.Drawing.Color.Black;
             }
@@ -104,7 +104,7 @@ namespace Proyecto_Taller_AdminShop
 
         private void TBContraseña_TextChanged(object sender, EventArgs e)
         {
-            if (ValidationUser.ValidationLengh(TBContraseña.Text, 6, 20))
+            if (UserController.ValidationLengh(TBContraseña.Text, 6, 20))
             {
                 TBContraseña.ForeColor = System.Drawing.Color.Black;
             }
@@ -116,7 +116,7 @@ namespace Proyecto_Taller_AdminShop
 
         private void TBTelefono_TextChanged(object sender, EventArgs e)
         {
-            if (ValidationUser.ValidationLengh(TBTelefono.Text, 3, 50))
+            if (UserController.ValidationLengh(TBTelefono.Text, 3, 50))
             {
                 TBTelefono.ForeColor = System.Drawing.Color.Black;
             }
@@ -128,7 +128,7 @@ namespace Proyecto_Taller_AdminShop
 
         private void TBDni_TextChanged(object sender, EventArgs e)
         {
-            if (ValidationUser.ValidationLengh(TBDni.Text, 3, 50))
+            if (UserController.ValidationLengh(TBDni.Text, 3, 50))
             {
                 TBDni.ForeColor = System.Drawing.Color.Black;
             }
@@ -140,7 +140,7 @@ namespace Proyecto_Taller_AdminShop
 
         private void TBInstagram_TextChanged(object sender, EventArgs e)
         {
-            if (ValidationUser.ValidationLengh(TBInstagram.Text, 3, 50))
+            if (UserController.ValidationLengh(TBInstagram.Text, 3, 50))
             {
                 TBInstagram.ForeColor = System.Drawing.Color.Black;
             }
@@ -152,7 +152,7 @@ namespace Proyecto_Taller_AdminShop
 
         private void TBContraseña_TextChanged_1(object sender, EventArgs e)
         {
-            if (ValidationUser.ValidationLengh(TBContraseña.Text, 6, 20))
+            if (UserController.ValidationLengh(TBContraseña.Text, 6, 20))
             {
                 TBContraseña.ForeColor = System.Drawing.Color.Black;
             }

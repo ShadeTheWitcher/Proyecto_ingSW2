@@ -212,25 +212,29 @@ namespace Proyecto_Taller_AdminShop.Classes
 
 
         //validaciones
-        private bool IsCategorySelected(object selectedItem)
+        public bool IsCategorySelected(object selectedItem)
         {
             return selectedItem != null;
         }
 
-        private bool IsDescriptionValid(string description)
+        public bool IsDescriptionValid(string description)
         {
             return !string.IsNullOrEmpty(description);
         }
 
-        private bool IsPriceValid(decimal price)
+        public bool IsPriceValid(decimal price)
         {
             return price > 0;
         }
 
-        private bool IsStockValid(int stock)
+        public bool IsStockValid(int stock)
         {
             return stock >= 0;
         }
+
+
+
+
 
 
         public bool ValidarCamposProducto(string descripcion, object selectedItem, string precioCostoStr, string precioVentaStr, string stockStr,

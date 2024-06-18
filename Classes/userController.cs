@@ -7,6 +7,7 @@ using System.Net;
 using System.Runtime.Remoting.Contexts;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Proyecto_Taller_AdminShop.Classes.Models;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
@@ -104,7 +105,7 @@ namespace Proyecto_Taller_AdminShop.Classes
                 if (string.IsNullOrWhiteSpace(contraseña))
                     return "La contraseña no puede estar vacía.";
 
-                if (!ValidationUser.ValidationLengh(contraseña, 6, 20))
+                if (!ValidationLengh(contraseña, 6, 20))
                     return "La contraseña debe tener entre 6 y 20 caracteres.";
             }
             
@@ -122,24 +123,24 @@ namespace Proyecto_Taller_AdminShop.Classes
 
 
 
-            if (!ValidationUser.ValidationLengh(nombre, 3, 50))
+            if (!ValidationLengh(nombre, 3, 50))
                 return "El nombre debe tener entre 3 y 50 caracteres.";
 
-            if (!ValidationUser.ValidationLengh(apellido, 3, 50))
+            if (!ValidationLengh(apellido, 3, 50))
                 return "El apellido debe tener entre 3 y 50 caracteres.";
 
-            if (!ValidationUser.ValidationEmail(email))
+            if (!ValidationEmail(email))
                 return "El correo electrónico no es válido.";
 
 
 
-            if (!ValidationUser.ValidationLengh(dni, 3, 50) || !long.TryParse(dni, out dniParsed))
+            if (!ValidationLengh(dni, 3, 50) || !long.TryParse(dni, out dniParsed))
                 return "El DNI no es válido.";
 
-            if (!ValidationUser.ValidationLengh(instagram, 3, 50))
+            if (!ValidationLengh(instagram, 3, 50))
                 return "El nombre de Instagram debe tener entre 3 y 50 caracteres.";
 
-            if (!ValidationUser.ValidationLengh(telefono, 3, 50) || !long.TryParse(telefono, out telefonoParsed))
+            if (!ValidationLengh(telefono, 3, 50) || !long.TryParse(telefono, out telefonoParsed))
                 return "El teléfono no es válido.";
 
             return null;
@@ -155,10 +156,10 @@ namespace Proyecto_Taller_AdminShop.Classes
 
             using (Classes.Models.Admin_shopEntities db = new Classes.Models.Admin_shopEntities())
             {
-                if (ValidationUser.ValidateUniqueEmail(db, email))
+                if (ValidateUniqueEmail(db, email))
                     return "Correo ya registrado.";
 
-                if (!ValidationUser.ValidateUniqueDNI(db, dni))
+                if (!ValidateUniqueDNI(db, dni))
                     return "DNI ya registrado por otro usuario.";
 
                 Usuario user = new Usuario
@@ -211,10 +212,10 @@ namespace Proyecto_Taller_AdminShop.Classes
                     return "Usuario no encontrado.";
 
                 // Validar correo único si se está editando
-                if (!ValidationUser.ValidateUniqueEmail(db, email, id))
+                if (!ValidateUniqueEmail(db, email, id))
                     return "Correo ya registrado por otro usuario.";
 
-                if (!ValidationUser.ValidateUniqueDNI(db, dni, id))
+                if (!ValidateUniqueDNI(db, dni, id))
                     return "DNI ya registrado por otro usuario.";
 
                 // Actualizar los datos del usuario
@@ -232,7 +233,49 @@ namespace Proyecto_Taller_AdminShop.Classes
             }
         }
 
+        //validaciones
 
+        public static bool ValidationLengh(string text, int l_min, int l_max)
+        {
+            return (l_min <= text.Length && text.Length <= l_max);
+        }
+
+        public static bool ValidationEmail(string text)
+        {
+            string patronCorreo = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
+            Regex regex = new Regex(patronCorreo);
+
+            return text.Length >= 7 && regex.IsMatch(text);
+        }
+
+        public static bool ValidateUniqueEmail(Classes.Models.Admin_shopEntities dbContext, string correo, int? id = null)
+        {
+            if (id.HasValue)
+            {
+                // Excluye el usuario actual de la verificación
+                return !dbContext.Usuario.Any(u => u.correo == correo && u.id_usuario != id.Value);
+            }
+            // Para nuevo usuario, verifica si ya existe el correo
+            return dbContext.Usuario.Any(u => u.correo == correo);
+        }
+
+        public static bool ValidateUniqueDNI(Classes.Models.Admin_shopEntities dbContext, string dni, int? id = null)
+        {
+            if (!long.TryParse(dni, out long dniNumber))
+            {
+                // Si no se puede convertir a long, retorna falso o maneja el error según tu lógica.
+                return false;
+            }
+
+            if (id.HasValue)
+            {
+                // Excluye el usuario actual de la verificación
+                return !dbContext.Usuario.Any(u => u.dni == dniNumber && u.id_usuario != id.Value);
+            }
+
+            // Para nuevo usuario, verifica si ya existe el DNI
+            return !dbContext.Usuario.Any(u => u.dni == dniNumber);
+        }
 
 
 

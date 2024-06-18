@@ -287,7 +287,6 @@
     </Compile>
     <Compile Include="Validations\ValidationClientes.cs" />
     <Compile Include="Validations\ValidationProducts.cs" />
-    <Compile Include="Validations\ValidationUser.cs" />
     <Compile Include="Forms\Vendedor\Cliente\BuscadorClientes.cs">
       <SubType>Form</SubType>
     </Compile>

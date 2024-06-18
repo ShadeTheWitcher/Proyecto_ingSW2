@@ -83,7 +83,7 @@ namespace Proyecto_Taller_AdminShop
 
         private void TBNombre_TextChanged(object sender, EventArgs e)
         {
-            if (ValidationUser.ValidationLengh(TBNombre.ToString(), 3, 50))
+            if (UserController.ValidationLengh(TBNombre.ToString(), 3, 50))
             {
                 TBNombre.ForeColor = System.Drawing.Color.Black;
             }
@@ -95,7 +95,7 @@ namespace Proyecto_Taller_AdminShop
 
         private void TBApellido_TextChanged(object sender, EventArgs e)
         {
-            if (ValidationUser.ValidationLengh(TBApellido.ToString(), 3, 50))
+            if (UserController.ValidationLengh(TBApellido.ToString(), 3, 50))
             {
                 TBApellido.ForeColor = System.Drawing.Color.Black;
             }
@@ -107,7 +107,7 @@ namespace Proyecto_Taller_AdminShop
 
         private void TBEmail_TextChanged(object sender, EventArgs e)
         {
-            if (ValidationUser.ValidationLengh(TBEmail.Text, 8, 40) && ValidationUser.ValidationEmail(TBEmail.Text))
+            if (UserController.ValidationLengh(TBEmail.Text, 8, 40) && UserController.ValidationEmail(TBEmail.Text))
             {
                 TBEmail.ForeColor = System.Drawing.Color.Black;
             }
@@ -120,7 +120,7 @@ namespace Proyecto_Taller_AdminShop
 
         private void TBtelefono_TextChanged(object sender, EventArgs e)
         {
-            if (ValidationUser.ValidationLengh(TBtelefono.ToString(), 10, 50))
+            if (UserController.ValidationLengh(TBtelefono.ToString(), 10, 50))
             {
                 TBtelefono.ForeColor = System.Drawing.Color.Black;
             }
@@ -132,7 +132,7 @@ namespace Proyecto_Taller_AdminShop
 
         private void TBDni_TextChanged(object sender, EventArgs e)
         {
-            if (ValidationUser.ValidationLengh(TBDni.Text, 7, 9))
+            if (UserController.ValidationLengh(TBDni.Text, 7, 9))
             {
                 TBDni.ForeColor = System.Drawing.Color.Black;
             }
@@ -144,7 +144,7 @@ namespace Proyecto_Taller_AdminShop
 
         private void TBInstagram_TextChanged(object sender, EventArgs e)
         {
-            if (ValidationUser.ValidationLengh(TBInstagram.ToString(), 3, 50))
+            if (UserController.ValidationLengh(TBInstagram.ToString(), 3, 50))
             {
                 TBInstagram.ForeColor = System.Drawing.Color.Black;
             }
