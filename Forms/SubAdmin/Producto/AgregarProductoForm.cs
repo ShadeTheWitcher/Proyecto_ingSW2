@@ -117,6 +117,7 @@ namespace Proyecto_Taller_AdminShop
                     Stock.Text))
                     {
                         MessageBox.Show("Producto añadido satisfactoriamente.", "Producto Añadido", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        this.Close();
                     }
                 }
                 catch (Exception ex)
