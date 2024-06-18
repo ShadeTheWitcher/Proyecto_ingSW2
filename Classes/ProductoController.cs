@@ -72,25 +72,7 @@ namespace Proyecto_Taller_AdminShop.Classes
         }
 
 
-        public static void addProduct(string description, int categoria, float precioCosto, float precioVenta, int stock)
-        {
 
-            Producto nuevoProducto = new Producto();
-            
-            nuevoProducto.descripcion = description;
-            nuevoProducto.id_categoria = categoria;
-            nuevoProducto.precio_costo = precioCosto;
-            nuevoProducto.precio_venta = precioVenta;
-            nuevoProducto.stock = stock;
-            nuevoProducto.create_by = 1;
-            nuevoProducto.estado = "1";
-
-
-            db.Producto.Add(nuevoProducto);
-
-            db.SaveChanges();
-            
-        }
 
         
 
