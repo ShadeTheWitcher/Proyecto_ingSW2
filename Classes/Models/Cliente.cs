@@ -33,8 +33,8 @@ namespace Proyecto_Taller_AdminShop.Classes.Models
         public int id_usuario { get; set; }
         public string estado { get; set; }
     
+        public virtual Usuario Usuario { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Venta> Venta { get; set; }
-        public virtual Usuario Usuario { get; set; }
     }
 }

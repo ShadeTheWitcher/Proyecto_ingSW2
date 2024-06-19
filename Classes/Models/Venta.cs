@@ -23,11 +23,11 @@ namespace Proyecto_Taller_AdminShop.Classes.Models
         public int id_venta { get; set; }
         public double total { get; set; }
         public System.DateTime fecha { get; set; }
+        public Nullable<int> id_cliente { get; set; }
+        public int id_usuario { get; set; }
         public System.DateTime create_date { get; set; }
         public Nullable<System.DateTime> modify_date { get; set; }
-        public int id_usuario { get; set; }
         public string estado { get; set; }
-        public Nullable<int> id_cliente { get; set; }
     
         public virtual Cliente Cliente { get; set; }
         public virtual Usuario Usuario { get; set; }

@@ -3,7 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Proyecto_Taller_AdminShop.Classes
 {
@@ -70,25 +72,51 @@ namespace Proyecto_Taller_AdminShop.Classes
         }
 
 
-        public static void addProduct(string description, int categoria, float precioCosto, float precioVenta, int stock)
+
+
+        
+
+        public bool RegistrarProducto(string descripcion, object selectedItem, string precioCostoStr, string precioVentaStr, string stockStr)
         {
+            string errorMessage;
+            Producto producto;
 
-            Producto nuevoProducto = new Producto();
-            
-            nuevoProducto.descripcion = description;
-            nuevoProducto.id_categoria = categoria;
-            nuevoProducto.precio_costo = precioCosto;
-            nuevoProducto.precio_venta = precioVenta;
-            nuevoProducto.stock = stock;
-            nuevoProducto.create_by = 1;
-            nuevoProducto.estado = "1";
+            // Validar los campos utilizando el método ValidarCamposProducto
+            if (!ValidarCamposProducto(descripcion, selectedItem, precioCostoStr, precioVentaStr, stockStr, out errorMessage, out producto))
+            {
+                throw new ArgumentException(errorMessage);
+            }
+
+            try
+            {
+
+                    // Aquí podrías llamar a tu método para insertar el producto en la base de datos
+                    // Utilizo los valores ya convertidos a float según la lógica de ValidarCamposProducto
+                    InsertarProducto(descripcion, producto.precio_costo, producto.precio_venta, producto.stock, producto.id_categoria, 1);
+                    return true;
 
 
-            db.Producto.Add(nuevoProducto);
-
-            db.SaveChanges();
-            
+                
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores específicos de la base de datos u otra lógica de inserción
+                throw new Exception("Error al insertar el producto.", ex);
+            }
         }
+
+       
+
+
+
+
+
+        public static void InsertarProducto(string descripcion, double precioCosto, double precioVenta, int stock, int idCategoria, int createBy)
+        {
+            // Llama al procedimiento almacenado de inserción de producto
+            db.InsertarProductoDB(descripcion, precioCosto, precioVenta, stock, idCategoria, createBy);
+        }
+
 
         public static void deleteProduct(int id) {
             Producto productoToDelete = db.Producto.Where(d => d.id_producto == id).First();
@@ -101,27 +129,26 @@ namespace Proyecto_Taller_AdminShop.Classes
 
         public static Producto getOneProduct(int id)
         {
-
-        var producto = (from p in db.Producto
+            var producto = (from p in db.Producto
                             join c in db.Categoria on p.id_categoria equals c.id_categoria
-                            where p.id_producto == id // condición para obtener el producto específico
+                            where p.id_producto == id
                             select new
                             {
                                 Producto = p,
-                                CategoriaDescripcion = c.descripcion // Suponiendo que 'descripcion' es el campo de la descripción en la tabla Categoria
-                            }).FirstOrDefault(); // Selecciona el primer resultado o devuelve null si no hay resultados
+                                CategoriaDescripcion = c.descripcion
+                            }).FirstOrDefault();
 
-            if (producto != null) 
+            if (producto != null)
             {
-                producto.Producto.Categoria.descripcion = producto.CategoriaDescripcion; // Asegúrate de tener un campo o propiedad 'DescripcionCategoria' en tu clase 'Producto'
-
-                return producto.Producto; 
+                producto.Producto.Categoria.descripcion = producto.CategoriaDescripcion;
+                return producto.Producto;
             }
             else
             {
-                return null; 
+                return null;
             }
         }
+
 
 
 
@@ -158,6 +185,127 @@ namespace Proyecto_Taller_AdminShop.Classes
                                                                                                                                                                      select p).OrderByDescending(m => m.stock);
             return outOfStockProductsList.ToList();
         }
+
+
+
+        //validaciones
+        public bool IsCategorySelected(object selectedItem)
+        {
+            return selectedItem != null;
+        }
+
+        public bool IsDescriptionValid(string description)
+        {
+            return !string.IsNullOrEmpty(description);
+        }
+
+        public bool IsPriceValid(decimal price)
+        {
+            return price > 0;
+        }
+
+        public bool IsStockValid(int stock)
+        {
+            return stock >= 0;
+        }
+
+
+
+
+
+
+        public bool ValidarCamposProducto(string descripcion, object selectedItem, string precioCostoStr, string precioVentaStr, string stockStr,
+        out string errorMessage,
+        out Producto producto)
+        {
+            producto = null;
+            errorMessage = string.Empty;
+
+            if (string.IsNullOrEmpty(descripcion) && string.IsNullOrEmpty(precioCostoStr) && string.IsNullOrEmpty(precioVentaStr) && string.IsNullOrEmpty(stockStr))
+            {
+                errorMessage = "Por favor, rellene los campos.";
+                return false;
+            }
+
+            if (!IsCategorySelected(selectedItem))
+            {
+                errorMessage = "Por favor, seleccione una categoría.";
+                return false;
+            }
+
+            if (!IsDescriptionValid(descripcion))
+            {
+                errorMessage = "La descripción no puede estar vacía.";
+                return false;
+            }
+
+            if (!decimal.TryParse(precioCostoStr, out decimal precioCosto) || !IsPriceValid(precioCosto))
+            {
+                errorMessage = "Ingrese un precio de costo válido (mayor a 0).";
+                return false;
+            }
+
+            if (!decimal.TryParse(precioVentaStr, out decimal precioVenta) || !IsPriceValid(precioVenta))
+            {
+                errorMessage = "Ingrese un precio de venta válido (mayor a 0).";
+                return false;
+            }
+
+            
+            int stock;
+
+            if (string.IsNullOrEmpty(stockStr))
+            {
+                errorMessage = "Ingrese un Stock.";
+                return false;
+            }
+            else if (!int.TryParse(stockStr, out stock))
+            {
+                errorMessage = "El texto ingresado no contiene números válidos. Por favor, ingrese sólo números positivos no decimales."; ; 
+                return false;
+            }
+            else if(!IsStockValid(stock))
+            {
+                errorMessage = "El stock no puede ser negativo.";
+                return false;
+            }
+            
+
+
+            if (selectedItem is ComboBoxItem comboBoxItem)
+            {
+                int categoriaId = comboBoxItem.Value;
+
+                producto = new Producto
+                {
+                    descripcion = descripcion,
+                    precio_costo = Convert.ToDouble(precioCosto), // Convertir a float si Producto usa float
+                    precio_venta = Convert.ToDouble(precioVenta), // Convertir a float si Producto usa float
+                    stock = stock,
+                    id_categoria = categoriaId
+                };
+
+                return true;
+            }
+            else
+            {
+                errorMessage = "Categoría seleccionada no es válida.";
+                return false;
+            }
+        }
+
+
+        public static void controlStock(int id_product, int cant)
+        {
+            Producto product = db.Producto.Where(d => d.id_producto == id_product).First();
+            product.stock -= cant;
+            db.Entry(product).State = System.Data.Entity.EntityState.Modified;
+            db.SaveChanges();
+        }
+        
+
+
+
 
     }
 }
