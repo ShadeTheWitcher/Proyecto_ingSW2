@@ -89,18 +89,13 @@ namespace Proyecto_Taller_AdminShop.Classes
 
             try
             {
-                if (!(producto.descripcion == db.Producto.FirstOrDefault().descripcion)) {
+
                     // Aquí podrías llamar a tu método para insertar el producto en la base de datos
                     // Utilizo los valores ya convertidos a float según la lógica de ValidarCamposProducto
                     InsertarProducto(descripcion, producto.precio_costo, producto.precio_venta, producto.stock, producto.id_categoria, 1);
+                    return true;
 
-                    return true; // Indicación de que el registro fue exitoso
-                }
-                else
-                {
-                    MessageBox.Show("Error al añadir producto: producto existente ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return false;
-                }
+
                 
             }
             catch (Exception ex)
